@@ -1,0 +1,1 @@
+Assets like sounds/outfit images/fonts/shop icons
