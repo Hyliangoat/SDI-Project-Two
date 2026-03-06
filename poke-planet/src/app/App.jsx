@@ -1,10 +1,16 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import MainRouter from './MainRouter'
+import { PlayerProvider } from './Providers'
 
 function App() {
-  
+  const [player, setPlayer] = useState(null)
+
+
   return (
     <>
-      <h1>Ahh shit, here we go again.</h1>
+      <PlayerProvider>
+        <MainRouter />
+      </PlayerProvider>
     </>
   )
 }
