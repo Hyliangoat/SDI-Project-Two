@@ -1,0 +1,86 @@
+
+/* Main menu container */
+.main-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.menu-title {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px #4fc3f7;
+}
+
+.player-info {
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+    color: #6ef7ff;
+    text-shadow: 0 0 5px #00eaff, 0 0 10px #00eaff;
+}
+
+.player-info span {
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 8px #4fc3f7;
+}
+
+/* Grid for menu cards */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 40px;
+    width: 90%;
+    max-width: 1000px;
+}
+
+/* Individual menu cards */
+.menu-card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 30px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+    font-family:'Orbitron', monospace;
+    color:#6ef7ff;
+    transition:all .25s ease;
+}
+
+.menu-card h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #6ef7ff;
+    text-shadow: 0 0 5px #00eaff, 0 0 10px #00eaff;
+}
+
+.menu-card p {
+    font-size: 1rem;
+    color: #cfd8ff;
+    line-height: 1.4;
+    text-shadow: 0 0 3px #00eaff, 0 0 6px #00eaff;
+}
+
+/* Hover effect */
+.menu-card:hover {
+    transform: scale(1.05);
+    box-shadow:
+        0 0 20px #4fc3f7,
+        0 0 40px #4fc3f7,
+        0 0 60px #4fc3f7,
+        inset 0 0 15px #4fc3f7;
+}
+
+/* Floating animation for subtle movement */
+@keyframes floatCard {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+}
+
+.menu-card {
+    animation: floatCard 5s ease-in-out infinite;
+}

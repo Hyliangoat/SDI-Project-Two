@@ -5,6 +5,8 @@ import MainMenu from '../features/MainMenu'
 import ShopPage from '../features/shop/ShopPage'
 import PlanetViewPage from '../features/pet/PlanetViewPage'
 import CampaignPage from '../features/campaign/CampaignPage'
+import BattlePage from '../features/battle/BattlePage'
+import BossBattlePage from '../features/boss/BossBattlePage'
 
 export default function MainRouter() {
   return (
@@ -15,6 +17,8 @@ export default function MainRouter() {
         <Route path ='/shop' element={<ShopPage />} />
         <Route path ='/campaign' element={<CampaignPage />} />
         <Route path ='/planet-care' element={<PlanetViewPage />} />
+        <Route path ='/battle' element={<BattlePage />} />
+        <Route path ='/boss' element={<BossBattlePage />} />
       </Routes>
     </Router>
   )

@@ -1,6 +1,7 @@
 import { fetchExoplanetData } from "../../services/exoplanetService";
+import { fetchImageData } from '../../services/nasaService'
 
-function assignStats(enemies) {
+function assignStats(enemy) {
     const enemyBasePlanet = {
         enemyName: 'Default',
         enemyHp: 0,
@@ -14,7 +15,6 @@ function assignStats(enemies) {
     const planRadius = 1.5;
     const sunTemp = 5500; //Name, mass, orbital period, radius, sun temp
     const orbPeriod = 9;
-    const enemyPlanetArray = [];
 
     const balancePatch = (enemyCheck) => {
         let tempPlanet = enemyCheck
@@ -25,9 +25,7 @@ function assignStats(enemies) {
         return tempPlanet
     }
 
-    enemies.map(enemy => {
         let tempPlanet = {...enemyBasePlanet};
-        console.log(`mapping ${enemy.pl_name} to ${tempPlanet.enemyName}, ${enemyBasePlanet.enemyName} should not change`)
         enemy.pl_name ? (tempPlanet.enemyName = enemy.pl_name) : (tempPlanet.enemyName = name)
         enemy.pl_rade ? (tempPlanet.enemyHp = (enemy.pl_rade * 50)) : (tempPlanet.enemyHp = (planRadius * 50))
         enemy.st_teff ? (tempPlanet.enemyAttack = (enemy.st_teff * 0.01)) : (tempPlanet.enemyAttack = (sunTemp * 0.01))
@@ -35,25 +33,58 @@ function assignStats(enemies) {
         enemy.pl_orbper ? (tempPlanet.enemyEvasion = (enemy.pl_orbper * 1.5)) : (tempPlanet.enemyEvasion = (orbPeriod * 1.5))
 
         tempPlanet = balancePatch(tempPlanet)
-        enemyPlanetArray.push(tempPlanet)
-    })
+        tempPlanet.enemyHp = Math.floor(tempPlanet.enemyHp)
+        tempPlanet.enemyAttack = Math.floor(tempPlanet.enemyAttack)
+        tempPlanet.enemyDefense = Math.floor(tempPlanet.enemyDefense)
+        tempPlanet.enemyEvasion = Math.floor(tempPlanet.enemyEvasion)
 
 
-
-    console.log(enemyPlanetArray)
+    return tempPlanet
 }
 
 
-export async function createEnemyList(){
-    const enemyPlanetsData = await fetchExoplanetData()
-    const enemyPlanets = []
-    for(let i = 0; i < 4; i++){
-        const rand = Math.floor(Math.random() * (100))
-        console.log(rand)
-        enemyPlanets.push(enemyPlanetsData[rand])
-    }
-    console.log(enemyPlanets)
-    
-    assignStats(enemyPlanets)
 
+export async function createEnemyImage() {
+    const imageArray = [
+        'GSFC_20171208_Archive_e002172',
+        'PIA26601',
+        'PIA10364',
+        'PIA21472',
+        'PIA19833',
+        'PIA13054',
+        'PIA22087',
+        'PIA23690',
+        'PIA22084',
+        'PIA14888',
+        'PIA15808',
+        'PIA23130',
+        'PIA10363',
+        'GSFC_20171208_Archive_e000132',
+        'PIA05566',
+        'PIA10246',
+        'PIA21752',
+        'PIA23684',
+        'PIA19344',
+        'PIA19346',
+        'PIA19824',
+        'PIA17307',
+        'PIA17801',
+        'PIA23004',
+        'PIA17004',
+        'PIA17002',
+        'PIA07854'
+    ]
+    const rand = Math.floor(Math.random() * (imageArray.length))
+    const randPic = imageArray[rand]
+    const enemyUrl = await fetchImageData(randPic)
+    return enemyUrl
+}
+
+export async function createEnemy(){
+    const enemyPlanetData = await fetchExoplanetData()
+    const enemyImage = await createEnemyImage()
+    const randEnemy = Math.floor(Math.random() * 300)
+    const finalEnemy = assignStats(enemyPlanetData[randEnemy])
+    finalEnemy.enemyAvatar = enemyImage;
+    return finalEnemy;
 }

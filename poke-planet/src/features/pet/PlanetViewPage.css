@@ -1,0 +1,108 @@
+.petPage{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+.petPlanetSection{
+    grid-area: 1 / 2 / 2 / 4;
+    text-align: center;
+    justify-self: center;
+}
+.petInfoSection{
+    grid-area: 1 / 3 / 2 / 4;
+}
+.petToolsSection{
+    grid-area: 2 / 2 / 3 / 4;
+        font-family:'Orbitron', monospace;
+    font-size:14px;
+    line-height:1.4;
+    color:#cfd8ff;
+    margin:4px 0;
+    text-align: center;
+}
+.petPagePlanetContainer{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+.petPagePlanet{
+    grid-area: 1 / 1 / 2 / 2; 
+    width:180px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border-radius:20px;
+    padding:15px;
+    text-align:center;
+    cursor:pointer;
+    transition: all .3s ease;
+    animation: float 6s ease-in-out infinite;
+    position:relative;
+    font-family:'Orbitron', monospace;
+    color:#6ef7ff;
+    text-shadow:
+        0 0 4px #00eaff,
+        0 0 8px #00eaff;
+    transition:all .25s ease;
+}
+
+.petPagePlanetInfo{
+    grid-area: 1 / 2 / 2 / 3;
+    width:220px;
+    padding:12px;
+    border-radius:12px;
+    background: rgba(0,0,40,0.9);
+    border:1px solid rgba(120,180,255,0.6);
+    box-shadow:
+        inset 0 0 15px rgba(0,200,255,0.35),
+        0 0 10px rgba(0,200,255,0.25);
+    font-family:'Orbitron', monospace;
+    color:#6ef7ff;
+    text-shadow:
+        0 0 4px #00eaff,
+        0 0 8px #00eaff;
+    opacity: 1;
+    pointer-events:none;
+    transition:all .25s ease;
+        animation: float 6s ease-in-out infinite;
+    position:relative;
+    font-family:'Orbitron', monospace;
+    color:#6ef7ff;
+    text-shadow:
+        0 0 4px #00eaff,
+        0 0 8px #00eaff;
+    transition:all .25s ease;
+}
+
+.petPagePlanetInfo p{
+    font-family:'Orbitron', monospace;
+    font-size:14px;
+    line-height:1.4;
+    color:#cfd8ff;
+    margin:4px 0;
+}
+
+.petButton{
+    background: #020617;
+    border: 2px solid #00eaff;
+    color: #00eaff;
+    font-family: 'Orbitron', monospace;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.25s;
+    text-shadow: 0 0 5px #00eaff;
+}
+
+.petButton:hover{
+    background: #00eaff;
+    color: black;
+    box-shadow:
+    0 0 10px #00eaff,
+    0 0 25px #00eaff,
+    0 0 50px #00eaff;
+}

@@ -1,0 +1,119 @@
+.campaign-container{
+    display: grid;
+    grid-template-columns: repeat(5, .2fr);
+    grid-template-rows: repeat(5, .2fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+.campaign-card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 15px 25px 25px 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(79, 195, 247, 0.3);
+    width: 300px;
+    height: 300px;
+    text-align: center;
+}
+
+.campaign-title{
+    grid-area: 1 / 3 / 2 / 4;
+    text-align: center;
+    font-family:'Orbitron', monospace;
+    color:#6ef7ff;
+    transition:all .25s ease;
+}
+.campaign-boss{
+    grid-area: 2 / 3 / 3 / 4; 
+    text-align: center;
+}
+.campaign-minions{
+    grid-area: 3 / 3 / 4 / 4;
+    text-align: center;
+    font-family:'Orbitron', monospace;
+    color:#6ef7ff;
+    transition:all .25s ease;
+}
+
+.campaign-one{
+    grid-area: 4 / 1 / 5 / 2; 
+}
+.campaign-two{
+    grid-area: 4 / 2 / 5 / 3;
+}
+.campaign-three{
+    grid-area: 4 / 4 / 5 / 5;
+}
+.campaign-four{
+    grid-area: 4 / 5 / 5 / 6;
+}
+.campaign-button{
+    grid-area: 5 / 3 / 6 / 4; 
+    height: 50px;
+    width: 100px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    align-content: center;
+    justify-self: center;
+    justify-items: center;
+    padding: 10px 20px;
+    background: #020617;
+    border: 2px solid #00eaff;
+    color: #00eaff;
+    font-family: 'Orbitron', monospace;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.25s;
+    text-shadow: 0 0 5px #00eaff;
+}
+
+.campaign-button:hover{
+    background: #00eaff;
+    color: black;
+    box-shadow:
+    0 0 10px #00eaff,
+    0 0 25px #00eaff,
+    0 0 50px #00eaff;
+}
+
+.campaign-card h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #6ef7ff;
+    text-shadow: 0 0 5px #00eaff, 0 0 10px #00eaff;
+    text-align: center;
+}
+
+.campaign-card p {
+    font-size: 1rem;
+    color: #cfd8ff;
+    line-height: 1.4;
+    text-shadow: 0 0 3px #00eaff, 0 0 6px #00eaff;
+}
+
+/* Hover effect */
+.campaign-card:hover {
+    transform: scale(1.05);
+    box-shadow:
+        0 0 20px #4fc3f7,
+        0 0 40px #4fc3f7,
+        0 0 60px #4fc3f7,
+        inset 0 0 15px #4fc3f7;
+}
+
+/* Floating animation for subtle movement */
+@keyframes floatCard {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+}
+
+.campaign-card {
+    animation: floatCard 5s ease-in-out infinite;
+}

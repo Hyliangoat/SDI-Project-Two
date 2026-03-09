@@ -1,0 +1,10 @@
+.musicButton{
+        background: #020617;
+    border: 2px solid #00eaff;
+    color: #00eaff;
+    font-family: 'Orbitron', monospace;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.25s;
+    text-shadow: 0 0 5px #00eaff;
+}

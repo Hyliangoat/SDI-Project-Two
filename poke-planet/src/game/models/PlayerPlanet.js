@@ -35,7 +35,7 @@ export async function createStarterPlanet(starter){
         specialMove: starter.specialMove,
         favoriteElement: starter.favoriteElement,
         affinity: 0,
-        currOutfit: 'default'
+        currOutfit: []
     }
 
     return playerPlanet;
