@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import { PlayerContext, InventoryContext, ShopContext, EnergyContext } from '../../app/Providers'
+import { PlayerContext, InventoryContext, ShopContext, EnergyContext } from '../../context/GameContexts'
 import './ShopPage.css'
-export default function ShopItem({item, energyCost, name, description, stat, statIncrease}) {
+export default function ShopItem({item, energyCost, name, description, stat}) {
   const {energy, setEnergy} = useContext(EnergyContext)
   const {setInventory} = useContext(InventoryContext)
   const {setPlayer} = useContext(PlayerContext)

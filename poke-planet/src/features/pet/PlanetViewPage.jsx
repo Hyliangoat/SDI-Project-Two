@@ -1,7 +1,7 @@
 import React from 'react'
-import { useState, useEffect, useContext } from 'react'
-import { EnergyContext, InventoryContext, PlayerContext } from '../../app/Providers'
-import { PrefetchPageLinks, useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import { EnergyContext, InventoryContext, PlayerContext } from '../../context/GameContexts'
+import { useNavigate } from 'react-router-dom'
 import FloatingPlanet from './FloatingPlanet'
 
 export default function PlanetViewPage() {
@@ -41,7 +41,7 @@ export default function PlanetViewPage() {
           <button className='petButton' onClick={feedPlanet}>Feed Planet</button>
           <p>Your items: {inventory.length === 0 ? <span>None</span> : 
           inventory.map(
-            (item, index) => <img src={item} height='50px' width='50px'/>
+            (item) => <img src={item} height='50px' width='50px'/>
           )}</p>
         </div>
     </div>

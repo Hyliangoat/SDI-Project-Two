@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { PlayerContext } from '../../app/Providers'
+import { PlayerContext } from '../../context/GameContexts'
 import './PlanetViewPage.css'
 
 

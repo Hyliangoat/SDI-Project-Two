@@ -1,5 +1,5 @@
-
 export const Sol = {
+    id: 'sol',
     name: 'Sol, Father of the System',
     avatar: 'PIA17669',
     baseStats: {
@@ -14,6 +14,7 @@ export const Sol = {
 }
 
 export const Gaia = {
+    id: 'gaia',
     name: 'Gaia, Life-Giver',
     avatar: 'PIA18033',
     baseStats: {
@@ -28,6 +29,7 @@ export const Gaia = {
 }
 
 export const Luna = {
+    id: 'luna',
     name: 'Luna, Queen of the Tides',
     avatar: 'PIA02442',
     baseStats: {
@@ -42,6 +44,7 @@ export const Luna = {
 }
 
 export const Uranus = {
+    id: 'uranus',
     name: 'Sir Anthony Nuss',
     avatar: 'PIA18182',
     baseStats: {
@@ -56,6 +59,7 @@ export const Uranus = {
 }
 
 export const Jupiter = {
+    id: 'jupiter',
     name: 'Jupiter, Bulwark of the Weak',
     avatar: 'PIA00343',
     baseStats: {
@@ -70,6 +74,7 @@ export const Jupiter = {
 }
 
 export const Pluto = {
+    id: 'pluto',
     name: 'Pluto, The Outcast',
     avatar: 'PIA19708',
     baseStats: {
@@ -81,4 +86,23 @@ export const Pluto = {
     description: 'Pluto, The Outcast is the quiet nomad of his Solar System. While he does not start with much combat capability, his ability to siphon energy for upgrades leaves him with limitless potential down the line.',
     specialMove: ['Reparations'],
     favoriteElement: 'Nitrogen'
+}
+
+export const STARTER_PLANETS = Object.freeze({
+  Sol,
+  Gaia,
+  Luna,
+  Uranus,
+  Jupiter,
+  Pluto,
+});
+
+export function getStarterPlanet(starterName) {
+  const starter = STARTER_PLANETS[starterName];
+
+  if (!starter) {
+    throw new Error(`Unknown starter planet: ${starterName}`);
+  }
+
+  return starter;
 }

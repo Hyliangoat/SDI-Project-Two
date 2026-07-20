@@ -1,40 +1,49 @@
-import { useState, useEffect, useRef } from 'react'
-import MainRouter from './MainRouter'
-import { EnergyProvider, InventoryProvider, PlayerProvider, ShopProvider } from './Providers'
-import '../index.css'
-import clickSound from '../assets/music/slimeyfox-last-credit-remaining-485095.mp3'
+import { useEffect, useRef } from 'react';
+import MainRouter from './MainRouter';
+import {
+  EnergyProvider,
+  InventoryProvider,
+  PlayerProvider,
+  ShopProvider,
+} from './Providers';
+import { BattleProvider } from '../context/BattleProvider';
+import '../index.css';
+import clickSound from '../assets/music/slimeyfox-last-credit-remaining-485095.mp3';
 
 function App() {
-  const [player, setPlayer] = useState(null)
-  const audioRef = useRef(null)
+  const audioRef = useRef(null);
 
   useEffect(() => {
-    audioRef.current = new Audio(clickSound)
+    audioRef.current = new Audio(clickSound);
     audioRef.current.loop = true;
-  }, [])
+
+    return () => {
+      audioRef.current?.pause();
+    };
+  }, []);
 
   const playMusic = () => {
-    if(audioRef.current){
-      audioRef.current.play().catch(err => {
-        console.log('Failed', err)
-      })
-    }
-  }
+    audioRef.current?.play().catch((error) => {
+      console.warn('Music playback was blocked by the browser.', error);
+    });
+  };
 
   return (
-    <>
-      <PlayerProvider>
-        <EnergyProvider>
-          <ShopProvider>
-            <InventoryProvider>
+    <PlayerProvider>
+      <EnergyProvider>
+        <ShopProvider>
+          <InventoryProvider>
+            <BattleProvider>
               <MainRouter />
-            </InventoryProvider>
-          </ShopProvider>
-        </EnergyProvider>
-      </PlayerProvider>
-      <button className='musicButton' onClick={playMusic}>Music On</button>
-    </>
-  )
+              <button className="musicButton" onClick={playMusic}>
+                Music On
+              </button>
+            </BattleProvider>
+          </InventoryProvider>
+        </ShopProvider>
+      </EnergyProvider>
+    </PlayerProvider>
+  );
 }
 
-export default App
+export default App;

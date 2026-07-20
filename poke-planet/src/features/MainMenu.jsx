@@ -1,6 +1,6 @@
 import React from 'react'
-import { PlayerContext } from '../app/Providers'
-import { useState, useEffect, useContext } from 'react'
+import { PlayerContext } from '../context/GameContexts'
+import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './MainMenu.css'
 

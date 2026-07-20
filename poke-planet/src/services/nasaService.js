@@ -1,17 +1,17 @@
-export async function fetchImageData(data){
+import { fetchJsonWithRetry } from './fetchJsonWithRetry';
 
-    let retries = 4;
-    while (retries > 0){
-    try{
-            const result = await fetch(`https://images-api.nasa.gov/search?q=${data}`)
+export async function fetchImageData(searchTerm) {
+  if (!searchTerm || typeof searchTerm !== 'string') {
+    throw new Error('A NASA image search term is required.');
+  }
 
-            const json = await result.json()
+  const url = `https://images-api.nasa.gov/search?q=${encodeURIComponent(searchTerm)}`;
+  const json = await fetchJsonWithRetry(url);
+  const imageUrl = json?.collection?.items?.[0]?.links?.[0]?.href;
 
-            return json.collection.items[0].links[0].href
-        } catch(error) {
-            console.log('Fetch failed, trying again')
-            retries -= 1;
-        }
-    }
-    console.log("What a shame")
+  if (!imageUrl) {
+    throw new Error(`No NASA image was found for "${searchTerm}".`);
+  }
+
+  return imageUrl;
 }

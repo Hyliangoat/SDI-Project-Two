@@ -1,25 +1,15 @@
-import React from 'react'
-import { requestEnemy } from '../../game/engine/battleEngine'
-import { useState, useEffect } from 'react'
-import { initializeEnemy } from '../../game/engine/battleEngine'
-export default function BattleEnemyCard({currEnemy}) {
-    const [enemy, setEnemy] = useState(null)
+export default function BattleEnemyCard({ enemy, isBoss }) {
+  const size = isBoss ? 200 : 100;
 
-
-    useEffect(() => {
-        let tempEnemy = requestEnemy()
-        setEnemy (tempEnemy)
-        initializeEnemy()
-    }, [currEnemy])
-    
-    if(!enemy){
-        return <p>Loading...</p>
-    }
-
-    return (
-        <div>
-            <p>{enemy.enemyName}</p>
-            <img src={enemy.enemyAvatar} height='100px' width='100px' />
-        </div>
-    )
+  return (
+    <div>
+      <p>{enemy.name}</p>
+      <img
+        src={enemy.avatar}
+        height={size}
+        width={size}
+        alt={enemy.name}
+      />
+    </div>
+  );
 }

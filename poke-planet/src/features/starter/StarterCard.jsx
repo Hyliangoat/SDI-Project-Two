@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect, useContext } from 'react'
 import { fetchPlanetCard, createStarterPlanet} from '../../game/models/PlayerPlanet'
-import { EnergyContext, InventoryContext, PlayerContext, ShopContext } from '../../app/Providers'
+import { EnergyContext, InventoryContext, PlayerContext, ShopContext } from '../../context/GameContexts'
 import { useNavigate } from 'react-router-dom'
 import './StarterSelectPage.css'
 import crownPic from '../../assets/images/crown.png'
@@ -12,7 +12,7 @@ import hatPic from '../../assets/images/hat.png'
 
 export default function StarterCard({name}) {
     const [card, setCard] = useState(null)
-    const {player, setPlayer} = useContext(PlayerContext)
+    const {setPlayer} = useContext(PlayerContext)
     const {setEnergy} = useContext(EnergyContext)
     const {setShop} = useContext(ShopContext)
     const {setInventory} = useContext(InventoryContext)
@@ -26,7 +26,7 @@ export default function StarterCard({name}) {
     
     fetchData()
 
-    }, [])
+    }, [name])
 
   if(!card){
     return(

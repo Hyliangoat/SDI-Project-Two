@@ -1,13 +1,13 @@
 import React from 'react'
-import { EnergyContext, InventoryContext } from '../../app/Providers'
-import { useContext, useState, useEffect } from 'react'
+import { EnergyContext, InventoryContext } from '../../context/GameContexts'
+import { useContext } from 'react'
 import ShopItem from './ShopItem'
-import { ShopContext } from '../../app/Providers'
+import { ShopContext } from '../../context/GameContexts'
 import { useNavigate } from 'react-router-dom'
 import './ShopPage.css'
 
 export default function ShopPage() {
-  const {energy, setEnergy} = useContext(EnergyContext)
+  const {energy} = useContext(EnergyContext)
   const {shop} = useContext(ShopContext)
   const {inventory} = useContext(InventoryContext)
   const navi = useNavigate()

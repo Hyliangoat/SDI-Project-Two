@@ -1,24 +1,18 @@
-import React from 'react'
-import HP from './HP'
-import { PlayerContext } from '../../app/Providers'
-import { useContext, useState, useEffect } from 'react'
-import './BattlePage.css'
+import HP from './HP';
+import './BattlePage.css';
 
-export default function BattleUI({refresh, newEnemy}) {
-  const {player} = useContext(PlayerContext)
-
+export default function BattleUI({ player, enemy }) {
   return (
-    <div className='healthBars'>
-      <div className='playerHealth'>
+    <div className="healthBars">
+      <div className="playerHealth">
         <p>Player health:</p>
-        <HP self={player} refresh={refresh} />
+        <HP current={player.health} maximum={player.maxHealth} />
       </div>
 
-      <div className='enemyHealth'>
+      <div className="enemyHealth">
         <p>Enemy health:</p>
-        <HP self={'enemy'} refresh={refresh} newEnemy={newEnemy}/>
+        <HP current={enemy.health} maximum={enemy.maxHealth} />
       </div>
     </div>
-
-  )
+  );
 }
