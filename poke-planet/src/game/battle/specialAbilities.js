@@ -99,7 +99,7 @@ export function applyPlayerSpecial(player, enemy) {
   return handler(player, enemy);
 }
 
-export function applyEnemySpecial(player, enemy, randomValue) {
+export function applyEnemySpecial(player, enemy, specialId) {
   switch (specialId) {
     case ENEMY_SPECIAL.PLAYER_DEFENSE_DOWN:
       return {

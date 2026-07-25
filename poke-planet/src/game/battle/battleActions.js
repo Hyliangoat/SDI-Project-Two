@@ -111,7 +111,7 @@ function resolvePlayerAction(player, enemy, actionName, nextRandom) {
 }
 
 function resolveEnemyAction(player, enemy, nextRandom) {
-  const choice = Math.floor(nextRandom() * 4);
+  const decision = chooseEnemyAction(player, enemy, nextRandom());
 
   switch (decision.action) {
     case BATTLE_ACTION.ATTACK: {
