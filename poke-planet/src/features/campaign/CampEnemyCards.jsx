@@ -20,7 +20,7 @@ export default function CampEnemyCard({ enemy }) {
         width="100"
         alt={enemy.enemyName}
       />
-      <p>Archetype: {formatArchetype(enemy.archetype)}</p>
+      <p>Archetype: {formatArchetype(enemy.enemyArchetype)}</p>
       <p>Threat score: {enemy.threatScore}</p>
       <p>HP: {enemy.enemyHp}</p>
       <p>Attack: {enemy.enemyAttack}</p>

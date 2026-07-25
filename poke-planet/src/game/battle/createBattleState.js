@@ -61,33 +61,92 @@ export function createEnemyActor(enemy, { isBoss = false } = {}) {
   const maxHealth = Math.max(
     1,
     Math.round(
-      toFiniteNumber(isBoss ? enemy.bossHp : enemy.enemyHp, 1),
+      toFiniteNumber(
+        isBoss ? enemy.bossHp : enemy.enemyHp,
+        1,
+      ),
     ),
   );
 
   return {
-    id: enemy.id ?? `${isBoss ? 'boss' : 'enemy'}-${enemy.enemyName ?? enemy.name ?? 'unknown'}`,
-    name: enemy.enemyName ?? enemy.name ?? 'Unknown Rogue Planet',
-    avatar: isBoss ? (enemy.bossAvatar ?? '') : (enemy.enemyAvatar ?? ''),
+    id:
+      enemy.id
+      ?? `${isBoss ? 'boss' : 'enemy'}-${
+        enemy.enemyName
+        ?? enemy.name
+        ?? 'unknown'
+      }`,
+
+    name:
+      enemy.enemyName
+      ?? enemy.name
+      ?? 'Unknown Rogue Planet',
+
+    avatar: isBoss
+      ? (enemy.bossAvatar ?? '')
+      : (enemy.enemyAvatar ?? ''),
+
     specialMove: isBoss
       ? (enemy.bossSpecial ?? 'Boss Special')
       : (enemy.specialMove ?? 'Rogue Anomaly'),
+
+    archetype: isBoss
+      ? ENEMY_ARCHETYPE.BOSS
+      : (
+        enemy.enemyArchetype
+        ?? enemy.archetype
+        ?? ENEMY_ARCHETYPE.BALANCED
+      ),
+
+    threatScore: isBoss
+      ? null
+      : Math.max(
+        0,
+        Math.round(
+          toFiniteNumber(enemy.threatScore, 0),
+        ),
+      ),
+
+    sourceData: isBoss
+      ? null
+      : (
+        enemy.sourceData
+          ? { ...enemy.sourceData }
+          : null
+      ),
+
     maxHealth,
     health: maxHealth,
+
     baseStats: {
       attack: Math.max(
         0,
-        toFiniteNumber(isBoss ? enemy.bossAttack : enemy.enemyAttack),
+        toFiniteNumber(
+          isBoss
+            ? enemy.bossAttack
+            : enemy.enemyAttack,
+        ),
       ),
+
       defense: Math.max(
         0,
-        toFiniteNumber(isBoss ? enemy.bossDefense : enemy.enemyDefense),
+        toFiniteNumber(
+          isBoss
+            ? enemy.bossDefense
+            : enemy.enemyDefense,
+        ),
       ),
+
       evasion: Math.max(
         0,
-        toFiniteNumber(isBoss ? enemy.bossEvasion : enemy.enemyEvasion),
+        toFiniteNumber(
+          isBoss
+            ? enemy.bossEvasion
+            : enemy.enemyEvasion,
+        ),
       ),
     },
+
     healsRemaining: ENEMY_HEAL_LIMIT,
     healPercentage: HEAL_PERCENTAGE,
     specialCooldown: 0,

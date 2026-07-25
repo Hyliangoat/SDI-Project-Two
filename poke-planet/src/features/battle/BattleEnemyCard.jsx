@@ -2,6 +2,7 @@ function formatArchetype(archetype) {
   if (!archetype) {
     return 'Balanced';
   }
+
   return archetype.charAt(0).toUpperCase() + archetype.slice(1);
 }
 
