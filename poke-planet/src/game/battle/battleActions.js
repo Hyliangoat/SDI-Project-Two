@@ -17,6 +17,7 @@ import {
   healActor,
   setActorHealth,
 } from './battleUtils';
+import { chooseEnemyAction } from './enemyDecision';
 import { applyEnemySpecial, applyPlayerSpecial } from './specialAbilities';
 import { createEnemyActor } from './createBattleState';
 
@@ -112,39 +113,62 @@ function resolvePlayerAction(player, enemy, actionName, nextRandom) {
 function resolveEnemyAction(player, enemy, nextRandom) {
   const choice = Math.floor(nextRandom() * 4);
 
-  switch (choice) {
-    case 0: {
+  switch (decision.action) {
+    case BATTLE_ACTION.ATTACK: {
       const result = resolveAttack(enemy, player, nextRandom);
-      return { player: result.defender, enemy, events: result.events };
+      return {
+        player: result.defender,
+        enemy,
+        events: result.events,
+        decision,
+      };
     }
-    case 1: {
-      const result = resolveEvade(enemy, EFFECT_ID.ENEMY_EVADE);
-      return { player, enemy: result.actor, events: [result.message] };
-    }
-    case 2: {
-      if (enemy.specialCooldown > 0) {
-        return {
-          player,
-          enemy,
-          events: [
-            `${enemy.name} cannot use ${enemy.specialMove} for ${enemy.specialCooldown} more turn(s).`,
-          ],
-        };
-      }
 
-      const result = applyEnemySpecial(player, enemy, nextRandom());
+    case BATTLE_ACTION.EVADE: {
+      const result = resolveEvade(enemy, EFFECT_ID.ENEMY_EVADE);
+      return {
+        player,
+        enemy: result.actor,
+        events: [result.message],
+        decision,
+      };
+    }
+
+    case BATTLE_ACTION.HEAL: {
+      const result = healActor(enemy);
+      return {
+        player,
+        enemy: result.actor,
+        events: [result.message],
+        decision,
+      };
+    }
+
+    case BATTLE_ACTION.SPECIAL: {
+      const result = applyEnemySpecial(player, enemy, decision.specialId);
       return {
         player: result.player,
         enemy: {
           ...result.enemy,
           specialCooldown: SPECIAL_COOLDOWN,
         },
-        events: [`${enemy.name} used a special move!`, result.message],
+        events: [`${enemy.name} used ${enemy.specialMove}!`, result.message],
+        decision,
       };
     }
+
     default: {
-      const result = healActor(enemy);
-      return { player, enemy: result.actor, events: [result.message] };
+      const result = resolveAttack(enemy, player, nextRandom);
+      return {
+        player: result.defender,
+        enemy,
+        events: result.events,
+        decision: {
+          ...decision,
+          action: BATTLE_ACTION.ATTACK,
+          reason: 'The decision engine returned an invalid action, so attack was used.',
+        },
+      };
     }
   }
 }

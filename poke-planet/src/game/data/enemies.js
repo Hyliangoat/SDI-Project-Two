@@ -1,5 +1,5 @@
 import { fetchImageData } from '../../services/nasaService';
-
+//this class defines the default stats for an enemy, the multipliers and limits for each stat, and a list of image IDs that can be used to create enemy avatars. It also includes functions to assign stats to an enemy based on exoplanet data, create an enemy image, and create an enemy using the exoplanet records.
 const DEFAULT_ENEMY = Object.freeze({
   enemyName: 'Rogue Mystery',
   enemyHp: 75,

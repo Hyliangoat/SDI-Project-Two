@@ -7,6 +7,11 @@ import { createCampaign } from '../../game/campaign/createCampaign';
 import { useBattle } from '../../hooks/useBattle';
 import './CampaignPage.css';
 
+/*
+This component represents the campaign page of the game. It fetches a campaign with a specified number of enemies and a boss, and displays them on the page. 
+The player can start the campaign by clicking the "Begin Campaign" button, which navigates to the battle page. If there is an error while fetching the campaign, 
+an error message is displayed along with a "Retry" button to attempt fetching the campaign again.
+*/
 const ENEMY_SLOT_CLASSES = [
   'campaign-one',
   'campaign-two',

@@ -22,6 +22,22 @@ export const BATTLE_REDUCER_ACTION = Object.freeze({
   RESET_BATTLE: 'RESET_BATTLE',
 });
 
+export const ENEMY_ARCHETYPE = Object.freeze({
+  BALANCED: 'balanced',
+  STRIKER: 'striker',
+  BULWARK: 'bulwark',
+  SKIRMISHER: 'skirmisher',
+  JUGGERNAUT: 'juggernaut',
+  BOSS: 'boss',
+});
+
+export const ENEMY_SPECIAL = Object.freeze({
+  PLAYER_DEFENSE_DOWN: 'player-defense-down',
+  ENEMY_DEFENSE_UP: 'enemy-defense-up',
+  PLAYER_EVASION_DOWN: 'player-evasion-down',
+  PLAYER_ATTACK_DOWN: 'player-attack-down',
+});
+
 export const PLAYER_HEAL_LIMIT = 3;
 export const ENEMY_HEAL_LIMIT = 2;
 export const HEAL_PERCENTAGE = 0.2;
@@ -30,6 +46,7 @@ export const EVADE_DURATION = 3;
 export const SPECIAL_COOLDOWN = 5;
 export const DEFAULT_RANDOM_VALUE = 0.5;
 export const RANDOM_VALUES_PER_TURN = 12;
+export const ENEMY_EXPLORATION_RATE = 0.12;
 
 export const EFFECT_ID = Object.freeze({
   PLAYER_EVADE: 'player-evade',

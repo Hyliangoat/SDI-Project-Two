@@ -3,6 +3,7 @@ import {
   ENEMY_HEAL_LIMIT,
   HEAL_PERCENTAGE,
   PLAYER_HEAL_LIMIT,
+  ENEMY_ARCHETYPE,
 } from './battleConstants';
 import { toFiniteNumber } from './battleUtils';
 
@@ -107,6 +108,7 @@ export function createIdleBattleState() {
     actionId: 0,
     turn: 0,
     pendingReward: 0,
+    lastEnemyDecision: null,
   };
 }
 

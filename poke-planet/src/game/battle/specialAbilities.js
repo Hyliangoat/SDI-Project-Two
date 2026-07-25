@@ -1,5 +1,6 @@
 import {
   EFFECT_ID,
+  ENEMY_SPECIAL,
   EVADE_DURATION,
 } from './battleConstants';
 import {
@@ -99,10 +100,8 @@ export function applyPlayerSpecial(player, enemy) {
 }
 
 export function applyEnemySpecial(player, enemy, randomValue) {
-  const choice = Math.floor(randomValue * 4);
-
-  switch (choice) {
-    case 0:
+  switch (specialId) {
+    case ENEMY_SPECIAL.PLAYER_DEFENSE_DOWN:
       return {
         player: addOrReplaceEffect(player, {
           id: EFFECT_ID.ENEMY_PLAYER_DEFENSE_DOWN,
@@ -113,7 +112,8 @@ export function applyEnemySpecial(player, enemy, randomValue) {
         enemy,
         message: `${player.name}'s defense was lowered by 20 for ${EVADE_DURATION} turns!`,
       };
-    case 1:
+
+    case ENEMY_SPECIAL.ENEMY_DEFENSE_UP:
       return {
         player,
         enemy: addOrReplaceEffect(enemy, {
@@ -124,7 +124,8 @@ export function applyEnemySpecial(player, enemy, randomValue) {
         }),
         message: `${enemy.name}'s defense was raised by 20 for ${EVADE_DURATION} turns!`,
       };
-    case 2:
+
+    case ENEMY_SPECIAL.PLAYER_EVASION_DOWN:
       return {
         player: addOrReplaceEffect(player, {
           id: EFFECT_ID.ENEMY_PLAYER_EVASION_DOWN,
@@ -135,6 +136,8 @@ export function applyEnemySpecial(player, enemy, randomValue) {
         enemy,
         message: `${player.name}'s evasion was lowered by 20 for ${EVADE_DURATION} turns!`,
       };
+
+    case ENEMY_SPECIAL.PLAYER_ATTACK_DOWN:
     default:
       return {
         player: addOrReplaceEffect(player, {
