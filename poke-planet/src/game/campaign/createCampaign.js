@@ -17,13 +17,9 @@ export async function createCampaign(enemyCount = 4) {
   const exoplanetRecords =
     await fetchExoplanetData();
 
-  const enemyPromises = Array.from(
-    { length: enemyCount },
-    () => createEnemy(exoplanetRecords),
-  );
 
   const [enemies, boss] = await Promise.all([
-    Promise.all(enemyPromises),
+    Promise.all(exoplanetRecords, enemyPromises),
     createBoss(),
   ]);
 
