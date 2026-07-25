@@ -207,6 +207,7 @@ export function resolveTurn(state, actionName, randomValues = []) {
       actionId: state.actionId + 1,
       turn: state.turn + 1,
       pendingReward: state.isBossBattle ? 100 : 20,
+      lastEnemyDecision: null,
     };
   }
 
@@ -239,6 +240,7 @@ export function resolveTurn(state, actionName, randomValues = []) {
     events,
     actionId: state.actionId + 1,
     turn: state.turn + 1,
+    lastEnemyDecision: enemyResult.decision,
   };
 }
 
@@ -261,5 +263,6 @@ export function advanceOpponent(state) {
     isBossBattle: nextIsBoss,
     events: [],
     pendingReward: 0,
+    lastEnemyDecision: null,
   };
 }
