@@ -9,7 +9,10 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "dev:client": "vite",
+    "dev:server": "npm --prefix server run dev",
+    "test:server": "npm --prefix server test"
   },
   "dependencies": {
     "react": "^19.2.0",

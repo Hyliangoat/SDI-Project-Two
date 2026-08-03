@@ -1,21 +1,12 @@
-import React from 'react'
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import { fetchPlanetCard, createStarterPlanet} from '../../game/models/PlayerPlanet'
-import { EnergyContext, InventoryContext, PlayerContext, ShopContext } from '../../context/GameContexts'
+import { useGameActions } from '../../hooks/useGameActions'
 import { useNavigate } from 'react-router-dom'
 import './StarterSelectPage.css'
-import crownPic from '../../assets/images/crown.png'
-import shadesPic from '../../assets/images/moreglasses.png'
-import smartShadesPic from '../../assets/images/smartglasses.png'
-import blingPic from '../../assets/images/bling.png'
-import hatPic from '../../assets/images/hat.png'
 
 export default function StarterCard({name}) {
     const [card, setCard] = useState(null)
-    const {setPlayer} = useContext(PlayerContext)
-    const {setEnergy} = useContext(EnergyContext)
-    const {setShop} = useContext(ShopContext)
-    const {setInventory} = useContext(InventoryContext)
+    const { selectStarter } = useGameActions()
     const navi = useNavigate();
 
     useEffect(() => {
@@ -37,17 +28,14 @@ export default function StarterCard({name}) {
   const handleClick = async () => {
     console.log(`You clicked ${card.name}`)
     const playerChoice = await createStarterPlanet(name)
-    setPlayer(playerChoice)
-    setEnergy({amount: 500})
-    setShop([crownPic, hatPic, shadesPic, smartShadesPic, blingPic])
-    setInventory([])
+    await selectStarter(playerChoice.id, playerChoice.avatar)
     navi('/Main');
   }
 
   return (
     <div className='planet-card' onClick={handleClick}>
       <div className='planet-preview'>
-        <img src={card.avatar} />
+        <img src={card.avatar} alt={card.name} />
         <p>{card.name}</p>
       </div>
 

@@ -6,8 +6,7 @@ import {
   BATTLE_REDUCER_ACTION,
   RANDOM_VALUES_PER_TURN,
 } from '../game/battle/battleConstants';
-import { EnergyContext } from '../context/GameContexts';
-import { useContext } from 'react';
+import { useGameActions } from '../hooks/useGameActions';
 
 function createRandomValues() {
   return Array.from(
@@ -22,7 +21,7 @@ export function BattleProvider({ children }) {
     undefined,
     createIdleBattleState,
   );
-  const { setEnergy } = useContext(EnergyContext);
+  const { awardEnergy } = useGameActions();
 
   const startCampaign = useCallback(({ player, enemies, boss }) => {
     dispatch({
@@ -51,25 +50,19 @@ export function BattleProvider({ children }) {
     }
 
     const reward = battle.pendingReward;
-    setEnergy((currentEnergy) => ({
-      ...currentEnergy,
-      amount: Number(currentEnergy?.amount ?? 0) + reward,
-    }));
-
-    dispatch({ type: BATTLE_REDUCER_ACTION.CLAIM_REWARD });
-  }, [battle.pendingReward, setEnergy]);
+    void awardEnergy(reward, battle.isBossBattle).then(() => {
+      dispatch({ type: BATTLE_REDUCER_ACTION.CLAIM_REWARD });
+    }).catch((error) => console.error('Unable to save reward:', error));
+  }, [battle.pendingReward, awardEnergy]);
 
   const advanceToNextOpponent = useCallback(() => {
     if (battle.pendingReward > 0) {
       const reward = battle.pendingReward;
-      setEnergy((currentEnergy) => ({
-        ...currentEnergy,
-        amount: Number(currentEnergy?.amount ?? 0) + reward,
-      }));
+      void awardEnergy(reward, false).catch((error) => console.error('Unable to save reward:', error));
     }
 
     dispatch({ type: BATTLE_REDUCER_ACTION.ADVANCE_OPPONENT });
-  }, [battle.pendingReward, setEnergy]);
+  }, [battle.pendingReward, awardEnergy]);
 
   const resetBattle = useCallback(() => {
     dispatch({ type: BATTLE_REDUCER_ACTION.RESET_BATTLE });

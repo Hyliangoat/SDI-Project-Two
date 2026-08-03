@@ -1,24 +1,20 @@
-import React from 'react'
 import { useContext } from 'react'
 import { EnergyContext, InventoryContext, PlayerContext } from '../../context/GameContexts'
+import { useGameActions } from '../../hooks/useGameActions'
 import { useNavigate } from 'react-router-dom'
 import FloatingPlanet from './FloatingPlanet'
 
 export default function PlanetViewPage() {
-  const {player, setPlayer} = useContext(PlayerContext)
+  const {player} = useContext(PlayerContext)
   const {inventory} = useContext(InventoryContext)
-  const {energy, setEnergy} = useContext(EnergyContext)
+  const {energy} = useContext(EnergyContext)
+  const { feedPlanet: persistFeed } = useGameActions()
   const navi = useNavigate()
 
-  //temp example to help me remember this
-  const feedPlanet = () => { 
-    if(energy.amount >= 5){
-      setPlayer(prevPlayer => ({
-        ...prevPlayer, affinity: prevPlayer.affinity + 5
-      }))
-      setEnergy(prev => ({...prev, amount: prev.amount - 5}))
-    }
+  const feedPlanet = async () => {
+    try { await persistFeed(); } catch (error) { console.error(error); }
   }
+
 
   const returnMenu = () => {
     navi('/main')
@@ -40,9 +36,7 @@ export default function PlanetViewPage() {
           <p>Your energy: {energy.amount}</p>
           <button className='petButton' onClick={feedPlanet}>Feed Planet</button>
           <p>Your items: {inventory.length === 0 ? <span>None</span> : 
-          inventory.map(
-            (item) => <img src={item} height='50px' width='50px'/>
-          )}</p>
+          inventory.map((item) => <img key={item.code} src={item.image} alt={item.name} height='50px' width='50px'/>)}</p>
         </div>
     </div>
     </>

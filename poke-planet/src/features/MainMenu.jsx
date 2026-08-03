@@ -1,12 +1,13 @@
-import React from 'react'
 import { PlayerContext } from '../context/GameContexts'
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './MainMenu.css'
+import { useSession } from '../hooks/useSession'
 
 export default function MainMenu() {
   const {player} = useContext(PlayerContext)
   const navi = useNavigate();
+  const { logout } = useSession();
 
   const handleClick = (choice) =>{
     navi(`/${choice}`)
@@ -16,6 +17,7 @@ export default function MainMenu() {
     <div className='main-menu'>
       <h1 className='menu-title'>Poke-Planet</h1>
       <p className='player-info'>Your planet is: <span>{player.name}</span></p>
+      <button onClick={logout}>Sign out</button>
       <div className='menu-grid'>
         <div className='menu-card' onClick={() => handleClick('campaign')}>
           <h1>Campaign</h1>
