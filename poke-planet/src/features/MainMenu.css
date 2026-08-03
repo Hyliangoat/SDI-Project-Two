@@ -84,3 +84,25 @@
 .menu-card {
     animation: floatCard 5s ease-in-out infinite;
 }
+
+
+.sign-out-button {
+    background: #020617;
+    border: 2px solid #00eaff;
+    color: #00eaff;
+    font-family: 'Orbitron', monospace;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.25s;
+    text-shadow: 0 0 5px #00eaff;
+    padding: 8px 14px;
+    margin-bottom: 30px;
+}
+
+.sign-out-button:hover {
+    background: #00eaff;
+    color: #020617;
+    box-shadow:
+        0 0 10px #00eaff,
+        0 0 20px #00eaff;
+}

@@ -53,7 +53,7 @@ export function BattleProvider({ children }) {
     void awardEnergy(reward, battle.isBossBattle).then(() => {
       dispatch({ type: BATTLE_REDUCER_ACTION.CLAIM_REWARD });
     }).catch((error) => console.error('Unable to save reward:', error));
-  }, [battle.pendingReward, awardEnergy]);
+  }, [battle.pendingReward, battle.isBossBattle, awardEnergy]);
 
   const advanceToNextOpponent = useCallback(() => {
     if (battle.pendingReward > 0) {

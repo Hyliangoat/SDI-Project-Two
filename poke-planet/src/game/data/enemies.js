@@ -225,14 +225,6 @@ export async function createEnemies(
       enemyAvatar: await imageFetcher(selectedImageIds[index]),
     })),
   );
-
-  console.log(
-    'Generated enemies:',
-    enemies.map((enemy) => ({
-      name: enemy.enemyName,
-      archetype: enemy.enemyArchetype,
-      })),
-  );
   
 
   return enemies.sort((first, second) => (
