@@ -1,5 +1,5 @@
-import { getStarterPlanet } from '../data/starterPlanets';
-import { fetchImageData } from '../../services/nasaService';
+import { getStarterPlanet } from "../data/starterPlanets";
+import { fetchImageData } from "../../services/nasaService";
 
 async function buildPlanet(starterName, includePlayerState) {
   const starter = getStarterPlanet(starterName);

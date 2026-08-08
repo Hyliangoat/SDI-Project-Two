@@ -6,12 +6,7 @@ export default function CampBossCard({ boss }) {
   return (
     <div>
       <p>{boss.name}</p>
-      <img
-        src={boss.bossAvatar}
-        width="200"
-        height="200"
-        alt={boss.name}
-      />
+      <img src={boss.bossAvatar} width="200" height="200" alt={boss.name} />
     </div>
   );
 }

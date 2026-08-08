@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import CampEnemyCard from './CampEnemyCards';
-import CampBossCard from './CampBossCard';
-import { PlayerContext } from '../../context/GameContexts';
-import { createCampaign } from '../../game/campaign/createCampaign';
-import { useBattle } from '../../hooks/useBattle';
-import './CampaignPage.css';
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import CampEnemyCard from "./CampEnemyCards";
+import CampBossCard from "./CampBossCard";
+import { PlayerContext } from "../../context/GameContexts";
+import { createCampaign } from "../../game/campaign/createCampaign";
+import { useBattle } from "../../hooks/useBattle";
+import "./CampaignPage.css";
 
 /*
 This component represents the campaign page of the game. It fetches a campaign with a specified number of enemies and a boss, and displays them on the page. 
@@ -13,10 +13,10 @@ The player can start the campaign by clicking the "Begin Campaign" button, which
 an error message is displayed along with a "Retry" button to attempt fetching the campaign again.
 */
 const ENEMY_SLOT_CLASSES = [
-  'campaign-one',
-  'campaign-two',
-  'campaign-three',
-  'campaign-four',
+  "campaign-one",
+  "campaign-two",
+  "campaign-three",
+  "campaign-four",
 ];
 
 export default function CampaignPage() {
@@ -24,7 +24,7 @@ export default function CampaignPage() {
   const { player } = useContext(PlayerContext);
   const { startCampaign } = useBattle();
   const [campaign, setCampaign] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [requestId, setRequestId] = useState(0);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function CampaignPage() {
 
     async function loadCampaign() {
       setCampaign(null);
-      setError('');
+      setError("");
 
       try {
         const generatedCampaign = await createCampaign(4);
@@ -42,7 +42,7 @@ export default function CampaignPage() {
       } catch (loadError) {
         console.error(loadError);
         if (!cancelled) {
-          setError('The campaign could not be generated. Please try again.');
+          setError("The campaign could not be generated. Please try again.");
         }
       }
     }
@@ -64,7 +64,7 @@ export default function CampaignPage() {
       enemies: campaign.enemies,
       boss: campaign.boss,
     });
-    navigate('/battle');
+    navigate("/battle");
   };
 
   return (

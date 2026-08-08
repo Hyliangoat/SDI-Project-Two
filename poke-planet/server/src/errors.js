@@ -6,5 +6,6 @@ export class HttpError extends Error {
 }
 
 export function asyncRoute(handler) {
-  return (request, response, next) => Promise.resolve(handler(request, response, next)).catch(next);
+  return (request, response, next) =>
+    Promise.resolve(handler(request, response, next)).catch(next);
 }

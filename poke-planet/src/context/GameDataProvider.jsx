@@ -1,32 +1,27 @@
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import {
   EnergyContext,
   InventoryContext,
   PlayerContext,
   ShopContext,
-} from './GameContexts';
-import { GameActionsContext } from './GameActionsContext';
+} from "./GameContexts";
+import { GameActionsContext } from "./GameActionsContext";
 
-import { useSession } from '../hooks/useSession';
-import { apiRequest } from '../services/apiClient';
+import { useSession } from "../hooks/useSession";
+import { apiRequest } from "../services/apiClient";
 
-import crownPic from '../assets/images/crown.png';
-import shadesPic from '../assets/images/moreglasses.png';
-import smartShadesPic from '../assets/images/smartglasses.png';
-import blingPic from '../assets/images/bling.png';
-import hatPic from '../assets/images/hat.png';
+import crownPic from "../assets/images/crown.png";
+import shadesPic from "../assets/images/moreglasses.png";
+import smartShadesPic from "../assets/images/smartglasses.png";
+import blingPic from "../assets/images/bling.png";
+import hatPic from "../assets/images/hat.png";
 
 const IMAGE_BY_KEY = Object.freeze({
   crown: crownPic,
   hat: hatPic,
   shades: shadesPic,
-  'smart-glasses': smartShadesPic,
+  "smart-glasses": smartShadesPic,
   bling: blingPic,
 });
 
@@ -55,9 +50,7 @@ function hydrateState(rawState = {}) {
 
     shop: hydrateItems(rawState.shop),
 
-    inventory: hydrateItems(
-      rawState.inventory,
-    ),
+    inventory: hydrateItems(rawState.inventory),
 
     progress: rawState.progress ?? {
       campaignsCompleted: 0,
@@ -66,9 +59,7 @@ function hydrateState(rawState = {}) {
   };
 }
 
-export function GameDataProvider({
-  children,
-}) {
+export function GameDataProvider({ children }) {
   const { token } = useSession();
 
   const [player, setPlayer] = useState(null);
@@ -79,15 +70,11 @@ export function GameDataProvider({
 
   const [shop, setShop] = useState([]);
   const [inventory, setInventory] = useState([]);
-  const [
-    hydratedToken,
-    setHydratedToken,
-  ] = useState(null);
+  const [hydratedToken, setHydratedToken] = useState(null);
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
-  const loading = Boolean(token)
-    && hydratedToken !== token;
+  const loading = Boolean(token) && hydratedToken !== token;
 
   const clearGameState = useCallback(() => {
     setPlayer(null);
@@ -100,93 +87,72 @@ export function GameDataProvider({
     setInventory([]);
   }, []);
 
-  const applyState = useCallback(
-    (rawState) => {
-      const state = hydrateState(rawState);
+  const applyState = useCallback((rawState) => {
+    const state = hydrateState(rawState);
 
-      setPlayer(state.player);
-      setEnergy(state.energy);
-      setShop(state.shop);
-      setInventory(state.inventory);
+    setPlayer(state.player);
+    setEnergy(state.energy);
+    setShop(state.shop);
+    setInventory(state.inventory);
 
-      return state;
-    },
-    [],
-  );
+    return state;
+  }, []);
 
   const requestGame = useCallback(
     async (path, options = {}) => {
       if (!token) {
-        throw new Error(
-          'Authentication required.',
-        );
+        throw new Error("Authentication required.");
       }
 
-      const rawState = await apiRequest(
-        `/game${path}`,
-        {
-          token,
-          ...options,
-        },
-      );
+      const rawState = await apiRequest(`/game${path}`, {
+        token,
+        ...options,
+      });
 
-      setError('');
+      setError("");
 
       return applyState(rawState);
     },
-    [
-      token,
-      applyState,
-    ],
+    [token, applyState],
   );
 
-  const refresh = useCallback(
-    async () => {
-      if (!token) {
-        clearGameState();
-        setHydratedToken(null);
-        return null;
-      }
-
+  const refresh = useCallback(async () => {
+    if (!token) {
+      clearGameState();
       setHydratedToken(null);
-      setError('');
+      return null;
+    }
 
-      try {
-        const rawState = await apiRequest(
-          '/game/state',
-          {
-            token,
-          },
-        );
+    setHydratedToken(null);
+    setError("");
 
-        return applyState(rawState);
-      } catch (requestError) {
-        const message = requestError
-          instanceof Error
+    try {
+      const rawState = await apiRequest("/game/state", {
+        token,
+      });
+
+      return applyState(rawState);
+    } catch (requestError) {
+      const message =
+        requestError instanceof Error
           ? requestError.message
-          : 'Unable to load the saved game.';
+          : "Unable to load the saved game.";
 
-        clearGameState();
-        setError(message);
+      clearGameState();
+      setError(message);
 
-        throw requestError;
-      } finally {
-        setHydratedToken(token);
-      }
-    },
-    [
-      token,
-      applyState,
-      clearGameState,
-    ],
-  );
+      throw requestError;
+    } finally {
+      setHydratedToken(token);
+    }
+  }, [token, applyState, clearGameState]);
 
   useEffect(() => {
     let cancelled = false;
 
     if (!token) {
       clearGameState();
-      setError('');
+      setError("");
       setHydratedToken(null);
 
       return () => {
@@ -194,14 +160,11 @@ export function GameDataProvider({
       };
     }
 
-    setError('');
+    setError("");
 
-    apiRequest(
-      '/game/state',
-      {
-        token,
-      },
-    )
+    apiRequest("/game/state", {
+      token,
+    })
       .then((rawState) => {
         if (!cancelled) {
           applyState(rawState);
@@ -212,10 +175,10 @@ export function GameDataProvider({
           return;
         }
 
-        const message = requestError
-          instanceof Error
-          ? requestError.message
-          : 'Unable to load the saved game.';
+        const message =
+          requestError instanceof Error
+            ? requestError.message
+            : "Unable to load the saved game.";
 
         clearGameState();
         setError(message);
@@ -229,11 +192,7 @@ export function GameDataProvider({
     return () => {
       cancelled = true;
     };
-  }, [
-    token,
-    applyState,
-    clearGameState,
-  ]);
+  }, [token, applyState, clearGameState]);
 
   const actions = useMemo(
     () => ({
@@ -241,76 +200,47 @@ export function GameDataProvider({
       error,
       refresh,
 
-      selectStarter: (
-        starterId,
-        avatarUrl,
-      ) => requestGame(
-        '/starter',
-        {
-          method: 'POST',
+      selectStarter: (starterId, avatarUrl) =>
+        requestGame("/starter", {
+          method: "POST",
           body: JSON.stringify({
             starterId,
             avatarUrl,
           }),
-        },
-      ),
+        }),
 
-      purchaseItem: (itemCode) => requestGame(
-        '/purchase',
-        {
-          method: 'POST',
+      purchaseItem: (itemCode) =>
+        requestGame("/purchase", {
+          method: "POST",
           body: JSON.stringify({
             itemCode,
           }),
-        },
-      ),
+        }),
 
-      feedPlanet: () => requestGame(
-        '/feed',
-        {
-          method: 'POST',
+      feedPlanet: () =>
+        requestGame("/feed", {
+          method: "POST",
           body: JSON.stringify({}),
-        },
-      ),
+        }),
 
-      awardEnergy: (
-        amount,
-        campaignComplete = false,
-      ) => requestGame(
-        '/reward',
-        {
-          method: 'POST',
+      awardEnergy: (amount, campaignComplete = false) =>
+        requestGame("/reward", {
+          method: "POST",
           body: JSON.stringify({
             amount,
             campaignComplete,
           }),
-        },
-      ),
+        }),
     }),
-    [
-      loading,
-      error,
-      refresh,
-      requestGame,
-    ],
+    [loading, error, refresh, requestGame],
   );
 
   return (
-    <PlayerContext.Provider
-      value={{ player }}
-    >
-      <EnergyContext.Provider
-        value={{ energy }}
-      >
-        <ShopContext.Provider
-          value={{ shop }}
-        >
-          <InventoryContext.Provider
-            value={{ inventory }}
-          >
-            <GameActionsContext.Provider
-              value={actions}
-            >
+    <PlayerContext.Provider value={{ player }}>
+      <EnergyContext.Provider value={{ energy }}>
+        <ShopContext.Provider value={{ shop }}>
+          <InventoryContext.Provider value={{ inventory }}>
+            <GameActionsContext.Provider value={actions}>
               {children}
             </GameActionsContext.Provider>
           </InventoryContext.Provider>

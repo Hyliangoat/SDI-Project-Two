@@ -1,7 +1,8 @@
-import { useContext } from 'react';
-import { SessionContext } from '../context/SessionContext';
+import { useContext } from "react";
+import { SessionContext } from "../context/SessionContext";
 export function useSession() {
   const value = useContext(SessionContext);
-  if (!value) throw new Error('useSession must be used within SessionProvider.');
+  if (!value)
+    throw new Error("useSession must be used within SessionProvider.");
   return value;
 }

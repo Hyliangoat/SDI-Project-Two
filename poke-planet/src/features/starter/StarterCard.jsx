@@ -1,25 +1,18 @@
-import {
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from "react";
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-import { fetchPlanetCard } from '../../game/models/PlayerPlanet';
-import { useGameActions } from '../../hooks/useGameActions';
+import { fetchPlanetCard } from "../../game/models/PlayerPlanet";
+import { useGameActions } from "../../hooks/useGameActions";
 
-import './StarterSelectPage.css';
+import "./StarterSelectPage.css";
 
-export default function StarterCard({
-  name,
-}) {
+export default function StarterCard({ name }) {
   const [card, setCard] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
-  const {
-    selectStarter,
-  } = useGameActions();
+  const { selectStarter } = useGameActions();
 
   const navigate = useNavigate();
 
@@ -28,9 +21,7 @@ export default function StarterCard({
 
     async function fetchData() {
       try {
-        const planetCard = await fetchPlanetCard(
-          name,
-        );
+        const planetCard = await fetchPlanetCard(name);
 
         if (!cancelled) {
           setCard(planetCard);
@@ -40,7 +31,7 @@ export default function StarterCard({
           setError(
             requestError instanceof Error
               ? requestError.message
-              : 'Unable to load this starter.',
+              : "Unable to load this starter.",
           );
         }
       }
@@ -59,7 +50,7 @@ export default function StarterCard({
     }
 
     setBusy(true);
-    setError('');
+    setError("");
 
     try {
       /*
@@ -67,22 +58,16 @@ export default function StarterCard({
        * starter ID and NASA avatar URL. A second NASA
        * request is unnecessary.
        */
-      await selectStarter(
-        card.id,
-        card.avatar,
-      );
+      await selectStarter(card.id, card.avatar);
 
-      navigate(
-        '/main',
-        {
-          replace: true,
-        },
-      );
+      navigate("/main", {
+        replace: true,
+      });
     } catch (selectionError) {
       setError(
         selectionError instanceof Error
           ? selectionError.message
-          : 'Unable to select the starter.',
+          : "Unable to select the starter.",
       );
     } finally {
       setBusy(false);
@@ -109,36 +94,17 @@ export default function StarterCard({
       disabled={busy}
     >
       <div className="planet-preview">
-        <img
-          src={card.avatar}
-          alt={card.name}
-        />
+        <img src={card.avatar} alt={card.name} />
 
         <p>{card.name}</p>
       </div>
 
       <div className="planet-info">
         <p>{card.description}</p>
-        <p>
-          Base HP:
-          {' '}
-          {card.baseStats.hp}
-        </p>
-        <p>
-          Base Attack:
-          {' '}
-          {card.baseStats.attack}
-        </p>
-        <p>
-          Base Defense:
-          {' '}
-          {card.baseStats.defense}
-        </p>
-        <p>
-          Base Evasion:
-          {' '}
-          {card.baseStats.evasion}
-        </p>
+        <p>Base HP: {card.baseStats.hp}</p>
+        <p>Base Attack: {card.baseStats.attack}</p>
+        <p>Base Defense: {card.baseStats.defense}</p>
+        <p>Base Evasion: {card.baseStats.evasion}</p>
 
         {busy && <p>Saving starter...</p>}
         {error && <p>{error}</p>}

@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import BattleUI from './BattleUI';
-import Skills from './Skills';
-import BattlePlayerCard from './BattlePlayerCard';
-import BattleEnemyCard from './BattleEnemyCard';
-import BattleLog from './BattleLog';
-import { useBattle } from '../../hooks/useBattle';
-import { BATTLE_STATUS } from '../../game/battle/battleConstants';
-import './BattlePage.css';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import BattleUI from "./BattleUI";
+import Skills from "./Skills";
+import BattlePlayerCard from "./BattlePlayerCard";
+import BattleEnemyCard from "./BattleEnemyCard";
+import BattleLog from "./BattleLog";
+import { useBattle } from "../../hooks/useBattle";
+import { BATTLE_STATUS } from "../../game/battle/battleConstants";
+import "./BattlePage.css";
 
 const MESSAGE_DELAY_MS = 1400;
 
@@ -20,7 +20,7 @@ export default function BattlePage() {
     advanceToNextOpponent,
     resetBattle,
   } = useBattle();
-  const [battleLog, setBattleLog] = useState('');
+  const [battleLog, setBattleLog] = useState("");
 
   useEffect(() => {
     if (battle.events.length === 0) {
@@ -51,7 +51,7 @@ export default function BattlePage() {
 
       if (completedStatus === BATTLE_STATUS.DEFEAT) {
         resetBattle();
-        navigate('/main');
+        navigate("/main");
         return;
       }
 
@@ -97,7 +97,7 @@ export default function BattlePage() {
           <p>No active campaign was found.</p>
           <button
             className="battleSkillsButton"
-            onClick={() => navigate('/campaign')}
+            onClick={() => navigate("/campaign")}
           >
             Generate Campaign
           </button>
@@ -107,8 +107,8 @@ export default function BattlePage() {
   }
 
   if (
-    battle.status === BATTLE_STATUS.CAMPAIGN_COMPLETE
-    && battle.events.length === 0
+    battle.status === BATTLE_STATUS.CAMPAIGN_COMPLETE &&
+    battle.events.length === 0
   ) {
     return (
       <div className="bossBattleContainer">
@@ -120,7 +120,7 @@ export default function BattlePage() {
             className="battleSkillsButton"
             onClick={() => {
               resetBattle();
-              navigate('/main');
+              navigate("/main");
             }}
           >
             Return to Menu
@@ -131,11 +131,15 @@ export default function BattlePage() {
   }
 
   return (
-    <div className={battle.isBossBattle ? 'bossBattleContainer' : 'battleContainer'}>
+    <div
+      className={
+        battle.isBossBattle ? "bossBattleContainer" : "battleContainer"
+      }
+    >
       <div className="battleTitle">
         <h2>
           {battle.isBossBattle
-            ? 'Final Boss'
+            ? "Final Boss"
             : `Enemy ${battle.currentEnemyIndex + 1}`}
         </h2>
       </div>
@@ -145,10 +149,7 @@ export default function BattlePage() {
       </div>
 
       <div className="battleEnemy">
-        <BattleEnemyCard
-          enemy={battle.enemy}
-          isBoss={battle.isBossBattle}
-        />
+        <BattleEnemyCard enemy={battle.enemy} isBoss={battle.isBossBattle} />
       </div>
 
       <div className="battleUI">

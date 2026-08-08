@@ -1,4 +1,4 @@
-import { DEFAULT_RANDOM_VALUE } from './battleConstants';
+import { DEFAULT_RANDOM_VALUE } from "./battleConstants";
 
 export function toFiniteNumber(value, fallback = 0) {
   const parsed = Number(value);

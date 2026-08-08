@@ -1,8 +1,8 @@
-import { fetchJsonWithRetry } from './fetchJsonWithRetry';
+import { fetchJsonWithRetry } from "./fetchJsonWithRetry";
 
 export async function fetchImageData(searchTerm) {
-  if (!searchTerm || typeof searchTerm !== 'string') {
-    throw new Error('A NASA image search term is required.');
+  if (!searchTerm || typeof searchTerm !== "string") {
+    throw new Error("A NASA image search term is required.");
   }
 
   const url = `https://images-api.nasa.gov/search?q=${encodeURIComponent(searchTerm)}`;

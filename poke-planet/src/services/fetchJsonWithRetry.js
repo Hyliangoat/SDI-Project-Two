@@ -1,9 +1,6 @@
 export async function fetchJsonWithRetry(
   url,
-  {
-    retries = 2,
-    timeoutMs = 10000,
-  } = {},
+  { retries = 2, timeoutMs = 10000 } = {},
 ) {
   let lastError = null;
 
@@ -18,7 +15,7 @@ export async function fetchJsonWithRetry(
       const response = await fetch(url, {
         signal: controller.signal,
         headers: {
-          Accept: 'application/json',
+          Accept: "application/json",
         },
       });
 
@@ -43,7 +40,7 @@ export async function fetchJsonWithRetry(
     }
   }
 
-  if (lastError?.name === 'AbortError') {
+  if (lastError?.name === "AbortError") {
     throw new Error(`Request to ${url} timed out.`);
   }
 

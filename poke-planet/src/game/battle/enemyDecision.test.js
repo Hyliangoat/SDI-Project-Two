@@ -1,15 +1,11 @@
-import { describe, expect, it } from 'vitest';
-import {
-  BATTLE_ACTION,
-  EFFECT_ID,
-  ENEMY_ARCHETYPE,
-} from './battleConstants';
-import { chooseEnemyAction, rankEnemyActions } from './enemyDecision';
+import { describe, expect, it } from "vitest";
+import { BATTLE_ACTION, EFFECT_ID, ENEMY_ARCHETYPE } from "./battleConstants";
+import { chooseEnemyAction, rankEnemyActions } from "./enemyDecision";
 
 function createActor(overrides = {}) {
   return {
-    id: 'actor',
-    name: 'Actor',
+    id: "actor",
+    name: "Actor",
     maxHealth: 100,
     health: 100,
     baseStats: {
@@ -26,18 +22,23 @@ function createActor(overrides = {}) {
   };
 }
 
-describe('enemy decision algorithm', () => {
-  it('selects an attack when expected damage can defeat the player', () => {
-    const player = createActor({ health: 10, baseStats: { attack: 20, defense: 0, evasion: 0 } });
-    const enemy = createActor({ baseStats: { attack: 60, defense: 20, evasion: 0 } });
+describe("enemy decision algorithm", () => {
+  it("selects an attack when expected damage can defeat the player", () => {
+    const player = createActor({
+      health: 10,
+      baseStats: { attack: 20, defense: 0, evasion: 0 },
+    });
+    const enemy = createActor({
+      baseStats: { attack: 60, defense: 20, evasion: 0 },
+    });
 
     const decision = chooseEnemyAction(player, enemy, 0.5);
 
     expect(decision.action).toBe(BATTLE_ACTION.ATTACK);
-    expect(decision.reason).toContain('finish');
+    expect(decision.reason).toContain("finish");
   });
 
-  it('selects healing when health is critical and offensive value is low', () => {
+  it("selects healing when health is critical and offensive value is low", () => {
     const player = createActor({
       baseStats: { attack: 15, defense: 90, evasion: 80 },
     });
@@ -53,7 +54,7 @@ describe('enemy decision algorithm', () => {
     expect(decision.action).toBe(BATTLE_ACTION.HEAL);
   });
 
-  it('excludes actions that are currently invalid', () => {
+  it("excludes actions that are currently invalid", () => {
     const player = createActor();
     const enemy = createActor({
       health: 100,
@@ -62,7 +63,7 @@ describe('enemy decision algorithm', () => {
       effects: [
         {
           id: EFFECT_ID.ENEMY_EVADE,
-          stat: 'evasion',
+          stat: "evasion",
           amount: 30,
           turnsRemaining: 2,
         },
@@ -76,14 +77,14 @@ describe('enemy decision algorithm', () => {
     ]);
   });
 
-  it('occasionally selects the second-ranked action to preserve variation', () => {
+  it("occasionally selects the second-ranked action to preserve variation", () => {
     const player = createActor();
     const enemy = createActor({ health: 40 });
 
     const highestScoreDecision = chooseEnemyAction(player, enemy, 0.5);
     const explorationDecision = chooseEnemyAction(player, enemy, 0.01);
 
-    expect(explorationDecision.mode).toBe('exploration');
+    expect(explorationDecision.mode).toBe("exploration");
     expect(explorationDecision.action).toBe(
       highestScoreDecision.rankedCandidates[1].action,
     );

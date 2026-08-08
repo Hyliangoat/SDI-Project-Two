@@ -1,11 +1,9 @@
-import StarterCard from './StarterCard';
+import StarterCard from "./StarterCard";
 
 export default function StarterSelectPage() {
   return (
     <div className="starter-page">
-      <h1 className="title">
-        Welcome to Poké Planets
-      </h1>
+      <h1 className="title">Welcome to Poké Planets</h1>
 
       <div className="starter-grid">
         <StarterCard name="Sol" />

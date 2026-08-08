@@ -1,4 +1,3 @@
-
 //sortedFiniteValues takes an array of records and a key, and returns a sorted array of finite values for that key. It first checks if the input is an array, then maps the records to their corresponding values for the specified key, filters out non-finite values, and finally sorts the remaining values in ascending order.
 export function sortedFiniteValues(records, key) {
   if (!Array.isArray(records)) {

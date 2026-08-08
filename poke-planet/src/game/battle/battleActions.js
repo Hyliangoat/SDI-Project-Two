@@ -5,7 +5,7 @@ import {
   EVADE_BONUS,
   EVADE_DURATION,
   SPECIAL_COOLDOWN,
-} from './battleConstants';
+} from "./battleConstants";
 import {
   addOrReplaceEffect,
   advanceActorTimers,
@@ -16,15 +16,15 @@ import {
   hasEffect,
   healActor,
   setActorHealth,
-} from './battleUtils';
-import { chooseEnemyAction } from './enemyDecision';
-import { applyEnemySpecial, applyPlayerSpecial } from './specialAbilities';
-import { createEnemyActor } from './createBattleState';
+} from "./battleUtils";
+import { chooseEnemyAction } from "./enemyDecision";
+import { applyEnemySpecial, applyPlayerSpecial } from "./specialAbilities";
+import { createEnemyActor } from "./createBattleState";
 
 function resolveAttack(attacker, defender, nextRandom) {
-  const attack = getEffectiveStat(attacker, 'attack');
-  const defense = getEffectiveStat(defender, 'defense');
-  const evasion = getEffectiveStat(defender, 'evasion');
+  const attack = getEffectiveStat(attacker, "attack");
+  const defense = getEffectiveStat(defender, "defense");
+  const evasion = getEffectiveStat(defender, "evasion");
   const hit = didAttackHit(evasion, nextRandom());
 
   if (!hit) {
@@ -55,7 +55,7 @@ function resolveEvade(actor, effectId) {
   return {
     actor: addOrReplaceEffect(actor, {
       id: effectId,
-      stat: 'evasion',
+      stat: "evasion",
       amount: EVADE_BONUS,
       turnsRemaining: EVADE_DURATION,
     }),
@@ -95,17 +95,14 @@ function resolvePlayerAction(player, enemy, actionName, nextRandom) {
           specialCooldown: SPECIAL_COOLDOWN,
         },
         enemy: result.enemy,
-        events: [
-          `${player.name} used ${player.specialMove}!`,
-          result.message,
-        ],
+        events: [`${player.name} used ${player.specialMove}!`, result.message],
       };
     }
     default:
       return {
         player,
         enemy,
-        events: ['The selected player action was not recognized.'],
+        events: ["The selected player action was not recognized."],
       };
   }
 }
@@ -166,7 +163,8 @@ function resolveEnemyAction(player, enemy, nextRandom) {
         decision: {
           ...decision,
           action: BATTLE_ACTION.ATTACK,
-          reason: 'The decision engine returned an invalid action, so attack was used.',
+          reason:
+            "The decision engine returned an invalid action, so attack was used.",
         },
       };
     }

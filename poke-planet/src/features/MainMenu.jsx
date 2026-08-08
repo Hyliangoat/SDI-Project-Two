@@ -1,19 +1,15 @@
-import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { PlayerContext } from '../context/GameContexts';
-import { useSession } from '../hooks/useSession';
+import { PlayerContext } from "../context/GameContexts";
+import { useSession } from "../hooks/useSession";
 
-import './MainMenu.css';
+import "./MainMenu.css";
 
 export default function MainMenu() {
-  const {
-    player,
-  } = useContext(PlayerContext);
+  const { player } = useContext(PlayerContext);
 
-  const {
-    logout,
-  } = useSession();
+  const { logout } = useSession();
 
   const navigate = useNavigate();
 
@@ -24,31 +20,20 @@ export default function MainMenu() {
   function handleLogout() {
     logout();
 
-    navigate(
-      '/auth',
-      {
-        replace: true,
-      },
-    );
+    navigate("/auth", {
+      replace: true,
+    });
   }
 
   return (
     <div className="main-menu">
-      <h1 className="menu-title">
-        Poké Planets
-      </h1>
+      <h1 className="menu-title">Poké Planets</h1>
 
       <p className="player-info">
-        Your planet is:
-        {' '}
-        <span>{player.name}</span>
+        Your planet is: <span>{player.name}</span>
       </p>
 
-      <button
-        type="button"
-        className="sign-out-button"
-        onClick={handleLogout}
-      >
+      <button type="button" className="sign-out-button" onClick={handleLogout}>
         Sign out
       </button>
 
@@ -56,7 +41,7 @@ export default function MainMenu() {
         <div
           className="menu-card"
           onClick={() => {
-            handleClick('campaign');
+            handleClick("campaign");
           }}
         >
           <h1>Campaign</h1>
@@ -66,7 +51,7 @@ export default function MainMenu() {
         <div
           className="menu-card"
           onClick={() => {
-            handleClick('shop');
+            handleClick("shop");
           }}
         >
           <h1>Shop</h1>
@@ -76,13 +61,11 @@ export default function MainMenu() {
         <div
           className="menu-card"
           onClick={() => {
-            handleClick('planet-care');
+            handleClick("planet-care");
           }}
         >
           <h1>Planet Care</h1>
-          <p>
-            Customize and care for your planet
-          </p>
+          <p>Customize and care for your planet</p>
         </div>
       </div>
     </div>

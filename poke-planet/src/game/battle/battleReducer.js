@@ -1,11 +1,6 @@
-import {
-  BATTLE_REDUCER_ACTION,
-} from './battleConstants';
-import {
-  createBattleState,
-  createIdleBattleState,
-} from './createBattleState';
-import { advanceOpponent, resolveTurn } from './battleActions';
+import { BATTLE_REDUCER_ACTION } from "./battleConstants";
+import { createBattleState, createIdleBattleState } from "./createBattleState";
+import { advanceOpponent, resolveTurn } from "./battleActions";
 
 export function battleReducer(state, action) {
   switch (action.type) {

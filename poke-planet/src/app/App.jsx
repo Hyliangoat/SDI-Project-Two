@@ -1,7 +1,7 @@
-import MainRouter from './MainRouter';
-import { SessionProvider } from '../context/SessionProvider';
-import { GameDataProvider } from '../context/GameDataProvider';
-import { BattleProvider } from '../context/BattleProvider';
+import MainRouter from "./MainRouter";
+import { SessionProvider } from "../context/SessionProvider";
+import { GameDataProvider } from "../context/GameDataProvider";
+import { BattleProvider } from "../context/BattleProvider";
 
 function App() {
   return (

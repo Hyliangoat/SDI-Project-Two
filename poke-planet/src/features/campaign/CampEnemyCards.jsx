@@ -1,10 +1,9 @@
 function formatArchetype(archetype) {
   if (!archetype) {
-    return 'Unknown';
+    return "Unknown";
   }
   return archetype.charAt(0).toUpperCase() + archetype.slice(1);
 }
-
 
 export default function CampEnemyCard({ enemy }) {
   if (!enemy) {

@@ -1,10 +1,10 @@
-import cors from 'cors';
-import express from 'express';
-import helmet from 'helmet';
+import cors from "cors";
+import express from "express";
+import helmet from "helmet";
 
-import { config } from './config.js';
-import authRoutes from './routes/authRoutes.js';
-import gameRoutes from './routes/gameRoutes.js';
+import { config } from "./config.js";
+import authRoutes from "./routes/authRoutes.js";
+import gameRoutes from "./routes/gameRoutes.js";
 
 export function createApp() {
   const app = express();
@@ -18,10 +18,7 @@ export function createApp() {
          * Requests from command-line tools and tests
          * may not include an Origin header.
          */
-        if (
-          !origin
-          || config.clientOrigins.includes(origin)
-        ) {
+        if (!origin || config.clientOrigins.includes(origin)) {
           callback(null, true);
           return;
         }
@@ -29,69 +26,39 @@ export function createApp() {
         callback(null, false);
       },
 
-      methods: [
-        'GET',
-        'POST',
-        'PUT',
-        'PATCH',
-        'DELETE',
-        'OPTIONS',
-      ],
+      methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 
-      allowedHeaders: [
-        'Content-Type',
-        'Authorization',
-      ],
+      allowedHeaders: ["Content-Type", "Authorization"],
     }),
   );
 
   app.use(
     express.json({
-      limit: '50kb',
+      limit: "50kb",
     }),
   );
 
-  app.get(
-    '/api/health',
-    (_req, res) => {
-      res.json({
-        status: 'ok',
-      });
-    },
-  );
+  app.get("/api/health", (_req, res) => {
+    res.json({
+      status: "ok",
+    });
+  });
 
-  app.use(
-    '/api/auth',
-    authRoutes,
-  );
+  app.use("/api/auth", authRoutes);
 
-  app.use(
-    '/api/game',
-    gameRoutes,
-  );
+  app.use("/api/game", gameRoutes);
 
-  app.use(
-    (
-      error,
-      _req,
-      res,
-      _next,
-    ) => {
-      const status = Number(
-        error.status ?? 500,
-      );
+  app.use((error, _req, res, _next) => {
+    const status = Number(error.status ?? 500);
 
-      if (status >= 500) {
-        console.error(error);
-      }
+    if (status >= 500) {
+      console.error(error);
+    }
 
-      res.status(status).json({
-        error: status >= 500
-          ? 'Internal server error.'
-          : error.message,
-      });
-    },
-  );
+    res.status(status).json({
+      error: status >= 500 ? "Internal server error." : error.message,
+    });
+  });
 
   return app;
 }

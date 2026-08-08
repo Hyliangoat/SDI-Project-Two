@@ -1,4 +1,4 @@
-import { BinaryMaxHeap } from '../algorithms/BinaryMaxHeap';
+import { BinaryMaxHeap } from "../algorithms/BinaryMaxHeap";
 import {
   BATTLE_ACTION,
   EFFECT_ID,
@@ -7,14 +7,14 @@ import {
   ENEMY_SPECIAL,
   EVADE_BONUS,
   EVADE_DURATION,
-} from './battleConstants';
+} from "./battleConstants";
 import {
   calculateDamage,
   clamp,
   getEffectiveStat,
   hasEffect,
   toFiniteNumber,
-} from './battleUtils';
+} from "./battleUtils";
 
 const ACTION_TIE_PRIORITY = Object.freeze({
   [BATTLE_ACTION.ATTACK]: 4,
@@ -69,10 +69,7 @@ function compareCandidates(first, second) {
     return scoreDifference;
   }
 
-  return (
-    ACTION_TIE_PRIORITY[first.action]
-    - ACTION_TIE_PRIORITY[second.action]
-  );
+  return ACTION_TIE_PRIORITY[first.action] - ACTION_TIE_PRIORITY[second.action];
 }
 
 function healthRatio(actor) {
@@ -85,9 +82,9 @@ function hitProbability(evasion) {
 }
 
 function expectedDamage(attacker, defender) {
-  const attack = getEffectiveStat(attacker, 'attack');
-  const defense = getEffectiveStat(defender, 'defense');
-  const evasion = getEffectiveStat(defender, 'evasion');
+  const attack = getEffectiveStat(attacker, "attack");
+  const defense = getEffectiveStat(defender, "defense");
+  const evasion = getEffectiveStat(defender, "evasion");
 
   return calculateDamage(attack, defense) * hitProbability(evasion);
 }
@@ -100,9 +97,10 @@ function scoreAttack(player, enemy) {
   return {
     action: BATTLE_ACTION.ATTACK,
     score: damage + lethalBonus + pressureBonus,
-    reason: lethalBonus > 0
-      ? 'Attack can finish the player.'
-      : `Attack has about ${Math.round(damage)} expected damage.`,
+    reason:
+      lethalBonus > 0
+        ? "Attack can finish the player."
+        : `Attack has about ${Math.round(damage)} expected damage.`,
   };
 }
 
@@ -133,17 +131,16 @@ function scoreEvade(player, enemy) {
   }
 
   const incomingDamage = calculateDamage(
-    getEffectiveStat(player, 'attack'),
-    getEffectiveStat(enemy, 'defense'),
+    getEffectiveStat(player, "attack"),
+    getEffectiveStat(enemy, "defense"),
   );
-  const currentEvasion = getEffectiveStat(enemy, 'evasion');
+  const currentEvasion = getEffectiveStat(enemy, "evasion");
   const currentHitChance = hitProbability(currentEvasion);
   const improvedHitChance = hitProbability(currentEvasion + EVADE_BONUS);
-  const preventedDamage = (
-    incomingDamage
-    * Math.max(0, currentHitChance - improvedHitChance)
-    * EVADE_DURATION
-  );
+  const preventedDamage =
+    incomingDamage *
+    Math.max(0, currentHitChance - improvedHitChance) *
+    EVADE_DURATION;
   const dangerMultiplier = 1 + (1 - healthRatio(enemy)) * 1.5;
 
   return {
@@ -159,7 +156,7 @@ function scorePlayerDefenseDown(player, enemy) {
     ...player,
     baseStats: {
       ...player.baseStats,
-      defense: Math.max(0, getEffectiveStat(player, 'defense') - 20),
+      defense: Math.max(0, getEffectiveStat(player, "defense") - 20),
     },
     effects: [],
   };
@@ -168,7 +165,7 @@ function scorePlayerDefenseDown(player, enemy) {
   return {
     id: ENEMY_SPECIAL.PLAYER_DEFENSE_DOWN,
     score: (improvedDamage - currentDamage) * EVADE_DURATION + 5,
-    reason: 'Lowering player defense improves later attacks.',
+    reason: "Lowering player defense improves later attacks.",
   };
 }
 
@@ -178,7 +175,7 @@ function scoreEnemyDefenseUp(player, enemy) {
     ...enemy,
     baseStats: {
       ...enemy.baseStats,
-      defense: getEffectiveStat(enemy, 'defense') + 20,
+      defense: getEffectiveStat(enemy, "defense") + 20,
     },
     effects: [],
   };
@@ -187,24 +184,24 @@ function scoreEnemyDefenseUp(player, enemy) {
   return {
     id: ENEMY_SPECIAL.ENEMY_DEFENSE_UP,
     score: (currentIncoming - fortifiedIncoming) * EVADE_DURATION + 5,
-    reason: 'Increasing defense reduces future player damage.',
+    reason: "Increasing defense reduces future player damage.",
   };
 }
 
 function scorePlayerEvasionDown(player, enemy) {
   const damage = calculateDamage(
-    getEffectiveStat(enemy, 'attack'),
-    getEffectiveStat(player, 'defense'),
+    getEffectiveStat(enemy, "attack"),
+    getEffectiveStat(player, "defense"),
   );
-  const currentHitChance = hitProbability(getEffectiveStat(player, 'evasion'));
+  const currentHitChance = hitProbability(getEffectiveStat(player, "evasion"));
   const loweredHitChance = hitProbability(
-    Math.max(0, getEffectiveStat(player, 'evasion') - 20),
+    Math.max(0, getEffectiveStat(player, "evasion") - 20),
   );
 
   return {
     id: ENEMY_SPECIAL.PLAYER_EVASION_DOWN,
     score: damage * (loweredHitChance - currentHitChance) * EVADE_DURATION + 5,
-    reason: 'Lowering evasion increases the chance of future hits.',
+    reason: "Lowering evasion increases the chance of future hits.",
   };
 }
 
@@ -214,7 +211,7 @@ function scorePlayerAttackDown(player, enemy) {
     ...player,
     baseStats: {
       ...player.baseStats,
-      attack: Math.max(0, getEffectiveStat(player, 'attack') - 10),
+      attack: Math.max(0, getEffectiveStat(player, "attack") - 10),
     },
     effects: [],
   };
@@ -223,7 +220,7 @@ function scorePlayerAttackDown(player, enemy) {
   return {
     id: ENEMY_SPECIAL.PLAYER_ATTACK_DOWN,
     score: (currentIncoming - weakenedIncoming) * EVADE_DURATION + 5,
-    reason: 'Lowering attack reduces future incoming damage.',
+    reason: "Lowering attack reduces future incoming damage.",
   };
 }
 
@@ -235,9 +232,11 @@ export function chooseEnemySpecial(player, enemy) {
     scorePlayerAttackDown(player, enemy),
   ];
 
-  return candidates.reduce((best, candidate) => (
-    !best || candidate.score > best.score ? candidate : best
-  ), null);
+  return candidates.reduce(
+    (best, candidate) =>
+      !best || candidate.score > best.score ? candidate : best,
+    null,
+  );
 }
 
 function scoreSpecial(player, enemy) {
@@ -256,8 +255,9 @@ function scoreSpecial(player, enemy) {
 }
 
 export function rankEnemyActions(player, enemy) {
-  const weights = ARCHETYPE_WEIGHTS[enemy.archetype]
-    ?? ARCHETYPE_WEIGHTS[ENEMY_ARCHETYPE.BALANCED];
+  const weights =
+    ARCHETYPE_WEIGHTS[enemy.archetype] ??
+    ARCHETYPE_WEIGHTS[ENEMY_ARCHETYPE.BALANCED];
   const rawCandidates = [
     scoreAttack(player, enemy),
     scoreEvade(player, enemy),
@@ -284,23 +284,19 @@ export function chooseEnemyAction(player, enemy, randomValue = 0.5) {
     return {
       action: BATTLE_ACTION.ATTACK,
       score: 0,
-      reason: 'Attack is the only available fallback action.',
+      reason: "Attack is the only available fallback action.",
       rankedCandidates: [],
     };
   }
 
   const normalizedRandom = clamp(toFiniteNumber(randomValue, 0.5), 0, 0.999999);
-  const shouldExplore = (
-    normalizedRandom < ENEMY_EXPLORATION_RATE
-    && rankedCandidates.length > 1
-  );
-  const selected = shouldExplore
-    ? rankedCandidates[1]
-    : rankedCandidates[0];
+  const shouldExplore =
+    normalizedRandom < ENEMY_EXPLORATION_RATE && rankedCandidates.length > 1;
+  const selected = shouldExplore ? rankedCandidates[1] : rankedCandidates[0];
 
   return {
     ...selected,
-    mode: shouldExplore ? 'exploration' : 'highest-score',
+    mode: shouldExplore ? "exploration" : "highest-score",
     rankedCandidates,
   };
 }

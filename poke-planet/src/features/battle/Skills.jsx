@@ -1,6 +1,9 @@
-import { BATTLE_ACTION, BATTLE_STATUS } from '../../game/battle/battleConstants';
-import { useBattle } from '../../hooks/useBattle';
-import './BattlePage.css';
+import {
+  BATTLE_ACTION,
+  BATTLE_STATUS,
+} from "../../game/battle/battleConstants";
+import { useBattle } from "../../hooks/useBattle";
+import "./BattlePage.css";
 
 export default function Skills({ battleLocked }) {
   const { battle, performAction } = useBattle();

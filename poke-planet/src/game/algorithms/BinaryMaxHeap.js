@@ -5,8 +5,8 @@ the priority of the elements in the heap. By default, it uses a comparator that 
 */
 export class BinaryMaxHeap {
   constructor(comparator = (first, second) => first - second) {
-    if (typeof comparator !== 'function') {
-      throw new TypeError('BinaryMaxHeap requires a comparator function.');
+    if (typeof comparator !== "function") {
+      throw new TypeError("BinaryMaxHeap requires a comparator function.");
     }
 
     this.items = [];
@@ -84,8 +84,8 @@ export class BinaryMaxHeap {
       let highestPriorityIndex = parentIndex;
 
       if (
-        leftIndex < this.items.length
-        && this.comparator(
+        leftIndex < this.items.length &&
+        this.comparator(
           this.items[leftIndex],
           this.items[highestPriorityIndex],
         ) > 0
@@ -94,8 +94,8 @@ export class BinaryMaxHeap {
       }
 
       if (
-        rightIndex < this.items.length
-        && this.comparator(
+        rightIndex < this.items.length &&
+        this.comparator(
           this.items[rightIndex],
           this.items[highestPriorityIndex],
         ) > 0

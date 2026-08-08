@@ -1,5 +1,5 @@
-import HP from './HP';
-import './BattlePage.css';
+import HP from "./HP";
+import "./BattlePage.css";
 
 export default function BattleUI({ player, enemy }) {
   return (

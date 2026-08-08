@@ -19,19 +19,19 @@ input list and uses a fixed amount of memory to store the reservoir. It is commo
 
 export function reservoirSample(items, sampleSize, random = Math.random) {
   if (!Array.isArray(items)) {
-    throw new TypeError('Reservoir sampling requires an array.');
+    throw new TypeError("Reservoir sampling requires an array.");
   }
 
   if (!Number.isInteger(sampleSize) || sampleSize < 0) {
-    throw new RangeError('Sample size must be a nonnegative integer.');
+    throw new RangeError("Sample size must be a nonnegative integer.");
   }
 
   if (sampleSize > items.length) {
-    throw new RangeError('Sample size cannot exceed the number of items.');
+    throw new RangeError("Sample size cannot exceed the number of items.");
   }
 
-  if (typeof random !== 'function') {
-    throw new TypeError('Random source must be a function.');
+  if (typeof random !== "function") {
+    throw new TypeError("Random source must be a function.");
   }
 
   const reservoir = items.slice(0, sampleSize);

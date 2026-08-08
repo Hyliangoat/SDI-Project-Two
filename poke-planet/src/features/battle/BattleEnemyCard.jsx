@@ -1,6 +1,6 @@
 function formatArchetype(archetype) {
   if (!archetype) {
-    return 'Balanced';
+    return "Balanced";
   }
 
   return archetype.charAt(0).toUpperCase() + archetype.slice(1);
@@ -14,12 +14,7 @@ export default function BattleEnemyCard({ enemy, isBoss }) {
       <p>{enemy.name}</p>
       <p>{formatArchetype(enemy.archetype)} opponent</p>
       {!isBoss && <p>Threat score: {enemy.threatScore}</p>}
-      <img
-        src={enemy.avatar}
-        height={size}
-        width={size}
-        alt={enemy.name}
-      />
+      <img src={enemy.avatar} height={size} width={size} alt={enemy.name} />
     </div>
   );
 }

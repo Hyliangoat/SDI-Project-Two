@@ -1,18 +1,15 @@
-import { useCallback, useMemo, useReducer } from 'react';
-import { BattleContext } from './BattleContext';
-import { battleReducer } from '../game/battle/battleReducer';
-import { createIdleBattleState } from '../game/battle/createBattleState';
+import { useCallback, useMemo, useReducer } from "react";
+import { BattleContext } from "./BattleContext";
+import { battleReducer } from "../game/battle/battleReducer";
+import { createIdleBattleState } from "../game/battle/createBattleState";
 import {
   BATTLE_REDUCER_ACTION,
   RANDOM_VALUES_PER_TURN,
-} from '../game/battle/battleConstants';
-import { useGameActions } from '../hooks/useGameActions';
+} from "../game/battle/battleConstants";
+import { useGameActions } from "../hooks/useGameActions";
 
 function createRandomValues() {
-  return Array.from(
-    { length: RANDOM_VALUES_PER_TURN },
-    () => Math.random(),
-  );
+  return Array.from({ length: RANDOM_VALUES_PER_TURN }, () => Math.random());
 }
 
 export function BattleProvider({ children }) {
@@ -50,15 +47,19 @@ export function BattleProvider({ children }) {
     }
 
     const reward = battle.pendingReward;
-    void awardEnergy(reward, battle.isBossBattle).then(() => {
-      dispatch({ type: BATTLE_REDUCER_ACTION.CLAIM_REWARD });
-    }).catch((error) => console.error('Unable to save reward:', error));
+    void awardEnergy(reward, battle.isBossBattle)
+      .then(() => {
+        dispatch({ type: BATTLE_REDUCER_ACTION.CLAIM_REWARD });
+      })
+      .catch((error) => console.error("Unable to save reward:", error));
   }, [battle.pendingReward, battle.isBossBattle, awardEnergy]);
 
   const advanceToNextOpponent = useCallback(() => {
     if (battle.pendingReward > 0) {
       const reward = battle.pendingReward;
-      void awardEnergy(reward, false).catch((error) => console.error('Unable to save reward:', error));
+      void awardEnergy(reward, false).catch((error) =>
+        console.error("Unable to save reward:", error),
+      );
     }
 
     dispatch({ type: BATTLE_REDUCER_ACTION.ADVANCE_OPPONENT });
@@ -90,8 +91,6 @@ export function BattleProvider({ children }) {
   );
 
   return (
-    <BattleContext.Provider value={value}>
-      {children}
-    </BattleContext.Provider>
+    <BattleContext.Provider value={value}>{children}</BattleContext.Provider>
   );
 }

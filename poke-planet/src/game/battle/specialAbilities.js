@@ -1,12 +1,5 @@
-import {
-  EFFECT_ID,
-  ENEMY_SPECIAL,
-  EVADE_DURATION,
-} from './battleConstants';
-import {
-  addOrReplaceEffect,
-  setActorHealth,
-} from './battleUtils';
+import { EFFECT_ID, ENEMY_SPECIAL, EVADE_DURATION } from "./battleConstants";
+import { addOrReplaceEffect, setActorHealth } from "./battleUtils";
 
 function useSolSpecial(player, enemy) {
   const damage = 60;
@@ -33,7 +26,7 @@ function useLunaSpecial(player, enemy) {
   return {
     player: addOrReplaceEffect(player, {
       id: EFFECT_ID.LUNA_CLOAK,
-      stat: 'evasion',
+      stat: "evasion",
       amount: 50,
       turnsRemaining: EVADE_DURATION,
     }),
@@ -47,7 +40,7 @@ function useUranusSpecial(player, enemy) {
     player,
     enemy: addOrReplaceEffect(enemy, {
       id: EFFECT_ID.URANUS_WINTER,
-      stat: 'defense',
+      stat: "defense",
       amount: -50,
       turnsRemaining: EVADE_DURATION,
     }),
@@ -59,7 +52,7 @@ function useJupiterSpecial(player, enemy) {
   return {
     player: addOrReplaceEffect(player, {
       id: EFFECT_ID.JUPITER_SHIELD,
-      stat: 'defense',
+      stat: "defense",
       amount: 50,
       turnsRemaining: EVADE_DURATION,
     }),
@@ -105,7 +98,7 @@ export function applyEnemySpecial(player, enemy, specialId) {
       return {
         player: addOrReplaceEffect(player, {
           id: EFFECT_ID.ENEMY_PLAYER_DEFENSE_DOWN,
-          stat: 'defense',
+          stat: "defense",
           amount: -20,
           turnsRemaining: EVADE_DURATION,
         }),
@@ -118,7 +111,7 @@ export function applyEnemySpecial(player, enemy, specialId) {
         player,
         enemy: addOrReplaceEffect(enemy, {
           id: EFFECT_ID.ENEMY_DEFENSE_UP,
-          stat: 'defense',
+          stat: "defense",
           amount: 20,
           turnsRemaining: EVADE_DURATION,
         }),
@@ -129,7 +122,7 @@ export function applyEnemySpecial(player, enemy, specialId) {
       return {
         player: addOrReplaceEffect(player, {
           id: EFFECT_ID.ENEMY_PLAYER_EVASION_DOWN,
-          stat: 'evasion',
+          stat: "evasion",
           amount: -20,
           turnsRemaining: EVADE_DURATION,
         }),
@@ -142,7 +135,7 @@ export function applyEnemySpecial(player, enemy, specialId) {
       return {
         player: addOrReplaceEffect(player, {
           id: EFFECT_ID.ENEMY_PLAYER_ATTACK_DOWN,
-          stat: 'attack',
+          stat: "attack",
           amount: -10,
           turnsRemaining: EVADE_DURATION,
         }),

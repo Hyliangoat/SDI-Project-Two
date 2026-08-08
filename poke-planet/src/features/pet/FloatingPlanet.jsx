@@ -1,6 +1,6 @@
-import { useContext } from 'react';
-import { PlayerContext } from '../../context/GameContexts';
-import './PlanetViewPage.css';
+import { useContext } from "react";
+import { PlayerContext } from "../../context/GameContexts";
+import "./PlanetViewPage.css";
 
 export default function FloatingPlanet() {
   const { player } = useContext(PlayerContext);
@@ -25,26 +25,10 @@ export default function FloatingPlanet() {
 
       <div className="petPagePlanetInfo">
         <p>{player.description}</p>
-        <p>
-          Base HP:
-          {' '}
-          {player.baseStats.hp + affinityBonus}
-        </p>
-        <p>
-          Base Attack:
-          {' '}
-          {player.baseStats.attack + affinityBonus}
-        </p>
-        <p>
-          Base Defense:
-          {' '}
-          {player.baseStats.defense + affinityBonus}
-        </p>
-        <p>
-          Base Evasion:
-          {' '}
-          {player.baseStats.evasion + affinityBonus}
-        </p>
+        <p>Base HP: {player.baseStats.hp + affinityBonus}</p>
+        <p>Base Attack: {player.baseStats.attack + affinityBonus}</p>
+        <p>Base Defense: {player.baseStats.defense + affinityBonus}</p>
+        <p>Base Evasion: {player.baseStats.evasion + affinityBonus}</p>
       </div>
     </div>
   );
