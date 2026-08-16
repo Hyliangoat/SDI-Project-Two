@@ -1,28 +1,17 @@
-import { fetchJsonWithRetry } from "./fetchJsonWithRetry";
+export async function fetchExoplanetData(){
+    const apiKey = `MqCuO0PPhLvN4bLXgCOGv3w2U0hd2luGLyEIzsRJ`
+    const roguePlanetURL = `https://cors-anywhere.com/https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+hostname,pl_name,pl_orbper,pl_orbeccen,st_teff,pl_rade,pl_masse+from+ps+where+pl_rade+<+=+1.8+and+pl_masse+>+0&format=json&api_key=${apiKey}`
+    let retries = 4;
+    while(retries > 0){
+        try{
+            const result = await fetch(roguePlanetURL)
 
-const EXOPLANET_QUERY = [
-  "select hostname,pl_name,pl_orbper,pl_orbeccen,st_teff,pl_rade,pl_masse",
-  "from ps",
-  "where pl_rade <= 1.8 and pl_masse > 0",
-].join(" ");
+            const json = await result.json()
 
-export async function fetchExoplanetData() {
-  const endpoint =
-    import.meta.env.VITE_EXOPLANET_API_URL ?? "/api/exoplanets/TAP/sync";
-
-  const targetUrl = new URL(endpoint, window.location.origin);
-
-  targetUrl.searchParams.set("query", EXOPLANET_QUERY);
-  targetUrl.searchParams.set("format", "json");
-
-  const json = await fetchJsonWithRetry(targetUrl.toString(), {
-    retries: 2,
-    timeoutMs: 12000,
-  });
-
-  if (!Array.isArray(json) || json.length === 0) {
-    throw new Error("The exoplanet service returned no usable records.");
-  }
-
-  return json;
+            return json
+        } catch(error) {
+            console.log('Fetch failed, trying again')
+            retries -= 1;
+        }
+    }
 }

@@ -1,20 +1,25 @@
-function formatArchetype(archetype) {
-  if (!archetype) {
-    return "Balanced";
-  }
+import React from 'react'
+import { requestEnemy } from '../../game/engine/battleEngine'
+import { useState, useEffect } from 'react'
+import { initializeEnemy } from '../../game/engine/battleEngine'
+export default function BattleEnemyCard({currEnemy}) {
+    const [enemy, setEnemy] = useState(null)
 
-  return archetype.charAt(0).toUpperCase() + archetype.slice(1);
-}
 
-export default function BattleEnemyCard({ enemy, isBoss }) {
-  const size = isBoss ? 200 : 100;
+    useEffect(() => {
+        let tempEnemy = requestEnemy()
+        setEnemy (tempEnemy)
+        initializeEnemy()
+    }, [currEnemy])
+    
+    if(!enemy){
+        return <p>Loading...</p>
+    }
 
-  return (
-    <div>
-      <p>{enemy.name}</p>
-      <p>{formatArchetype(enemy.archetype)} opponent</p>
-      {!isBoss && <p>Threat score: {enemy.threatScore}</p>}
-      <img src={enemy.avatar} height={size} width={size} alt={enemy.name} />
-    </div>
-  );
+    return (
+        <div>
+            <p>{enemy.enemyName}</p>
+            <img src={enemy.enemyAvatar} height='100px' width='100px' />
+        </div>
+    )
 }
