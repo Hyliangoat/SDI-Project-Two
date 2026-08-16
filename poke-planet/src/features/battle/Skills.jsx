@@ -1,42 +1,44 @@
-import React from 'react'
-import { useState, useEffect, useContext } from 'react'
-import { attackSequence, evadeSequence, healSequence, specialSequence } from '../../game/engine/battleEngine'
-import { PlayerContext } from '../../app/Providers'
-import './BattlePage.css'
+import {
+  BATTLE_ACTION,
+  BATTLE_STATUS,
+} from "../../game/battle/battleConstants";
+import { useBattle } from "../../hooks/useBattle";
+import "./BattlePage.css";
 
-export default function Skills({refreshBattle, playLog, battleLocked}) {
-  const {player} = useContext(PlayerContext)
-
-  function handleAttack(){
-    const events = attackSequence(player)
-    playLog(events)
-    refreshBattle()
-  }
-
-  function handleEvade(){
-    const events = evadeSequence(player)
-    playLog(events)
-    refreshBattle()
-  }
-
-  function handleSpecial(){
-    const events = specialSequence(player)
-    playLog(events)
-    refreshBattle()
-  }
-
-  function handleHeal(){
-    const events = healSequence(player)
-    playLog(events)
-    refreshBattle()
-  }
+export default function Skills({ battleLocked }) {
+  const { battle, performAction } = useBattle();
+  const disabled = battleLocked || battle.status !== BATTLE_STATUS.ACTIVE;
 
   return (
-    <div className = 'skillsButtons'>
-      <button disabled={battleLocked} className='battleSkillsButton' onClick={handleAttack}>Attack</button>
-      <button disabled={battleLocked} className='battleSkillsButton' onClick={handleEvade}>Evade</button>
-      <button disabled={battleLocked} className='battleSkillsButton' onClick={handleSpecial}>Special</button>
-      <button disabled={battleLocked} className='battleSkillsButton' onClick={handleHeal}>Heal</button>
+    <div className="skillsButtons">
+      <button
+        disabled={disabled}
+        className="battleSkillsButton"
+        onClick={() => performAction(BATTLE_ACTION.ATTACK)}
+      >
+        Attack
+      </button>
+      <button
+        disabled={disabled}
+        className="battleSkillsButton"
+        onClick={() => performAction(BATTLE_ACTION.EVADE)}
+      >
+        Evade
+      </button>
+      <button
+        disabled={disabled}
+        className="battleSkillsButton"
+        onClick={() => performAction(BATTLE_ACTION.SPECIAL)}
+      >
+        Special ({battle.player?.specialCooldown ?? 0})
+      </button>
+      <button
+        disabled={disabled}
+        className="battleSkillsButton"
+        onClick={() => performAction(BATTLE_ACTION.HEAL)}
+      >
+        Heal ({battle.player?.healsRemaining ?? 0})
+      </button>
     </div>
-  )
+  );
 }

@@ -1,0 +1,20 @@
+services:
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: poke_planets
+      POSTGRES_USER: poke_user
+      POSTGRES_PASSWORD: poke_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - poke_planets_data:/var/lib/postgresql/data
+      - ./server/sql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U poke_user -d poke_planets"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  poke_planets_data:

@@ -1,63 +1,114 @@
-import React from 'react'
-import { useState, useEffect, useContext } from 'react'
-import { fetchPlanetCard, createStarterPlanet} from '../../game/models/PlayerPlanet'
-import { EnergyContext, InventoryContext, PlayerContext, ShopContext } from '../../app/Providers'
-import { useNavigate } from 'react-router-dom'
-import './StarterSelectPage.css'
-import crownPic from '../../assets/images/crown.png'
-import shadesPic from '../../assets/images/moreglasses.png'
-import smartShadesPic from '../../assets/images/smartglasses.png'
-import blingPic from '../../assets/images/bling.png'
-import hatPic from '../../assets/images/hat.png'
+import { useEffect, useState } from "react";
 
-export default function StarterCard({name}) {
-    const [card, setCard] = useState(null)
-    const {player, setPlayer} = useContext(PlayerContext)
-    const {setEnergy} = useContext(EnergyContext)
-    const {setShop} = useContext(ShopContext)
-    const {setInventory} = useContext(InventoryContext)
-    const navi = useNavigate();
+import { useNavigate } from "react-router-dom";
 
-    useEffect(() => {
-      async function fetchData() {
-        const tempPlanet = await fetchPlanetCard(name)
-        setCard(tempPlanet)
+import { fetchPlanetCard } from "../../game/models/PlayerPlanet";
+import { useGameActions } from "../../hooks/useGameActions";
+
+import "./StarterSelectPage.css";
+
+export default function StarterCard({ name }) {
+  const [card, setCard] = useState(null);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const { selectStarter } = useGameActions();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function fetchData() {
+      try {
+        const planetCard = await fetchPlanetCard(name);
+
+        if (!cancelled) {
+          setCard(planetCard);
+        }
+      } catch (requestError) {
+        if (!cancelled) {
+          setError(
+            requestError instanceof Error
+              ? requestError.message
+              : "Unable to load this starter.",
+          );
+        }
       }
-    
-    fetchData()
+    }
 
-    }, [])
+    void fetchData();
 
-  if(!card){
-    return(
-      <p>Loading...</p>
-    )
+    return () => {
+      cancelled = true;
+    };
+  }, [name]);
+
+  async function handleClick() {
+    if (!card || busy) {
+      return;
+    }
+
+    setBusy(true);
+    setError("");
+
+    try {
+      /*
+       * The already-loaded card contains the stable
+       * starter ID and NASA avatar URL. A second NASA
+       * request is unnecessary.
+       */
+      await selectStarter(card.id, card.avatar);
+
+      navigate("/main", {
+        replace: true,
+      });
+    } catch (selectionError) {
+      setError(
+        selectionError instanceof Error
+          ? selectionError.message
+          : "Unable to select the starter.",
+      );
+    } finally {
+      setBusy(false);
+    }
   }
 
-  const handleClick = async () => {
-    console.log(`You clicked ${card.name}`)
-    const playerChoice = await createStarterPlanet(name)
-    setPlayer(playerChoice)
-    setEnergy({amount: 500})
-    setShop([crownPic, hatPic, shadesPic, smartShadesPic, blingPic])
-    setInventory([])
-    navi('/Main');
+  if (error && !card) {
+    return (
+      <div className="planet-card">
+        <p>{error}</p>
+      </div>
+    );
+  }
+
+  if (!card) {
+    return <p>Loading...</p>;
   }
 
   return (
-    <div className='planet-card' onClick={handleClick}>
-      <div className='planet-preview'>
-        <img src={card.avatar} />
+    <button
+      type="button"
+      className="planet-card"
+      onClick={handleClick}
+      disabled={busy}
+    >
+      <div className="planet-preview">
+        <img src={card.avatar} alt={card.name} />
+
         <p>{card.name}</p>
       </div>
 
-      <div className='planet-info'>
+      <div className="planet-info">
         <p>{card.description}</p>
         <p>Base HP: {card.baseStats.hp}</p>
         <p>Base Attack: {card.baseStats.attack}</p>
         <p>Base Defense: {card.baseStats.defense}</p>
         <p>Base Evasion: {card.baseStats.evasion}</p>
+
+        {busy && <p>Saving starter...</p>}
+        {error && <p>{error}</p>}
       </div>
-    </div>
-  )
+    </button>
+  );
 }
